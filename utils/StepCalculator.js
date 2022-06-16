@@ -41,7 +41,7 @@ const getSpikesFromAccelerometer = ({recentAccelerationData, threshold, previous
 
     let goingUp=wasGoingUp;//when we stop going up, we have hit a spike
     //let previousValue = 0;//this is not a real value
-    if (previousHighPointTime===0){//this should only happen the first time this function is called during an exercise, since we have no spikes yet
+    if (previousHighPointTime===0 && recentAccelerationData.length > 0){//this should only happen the first time this function is called during an exercise, since we have no spikes yet
         previousHighPointTime=recentAccelerationData[0].time;//just assume the timestamp of the first sensor reading is good enough to compare with for noise elimination
     }
     recentAccelerationData.forEach((accelerationDatum) => {

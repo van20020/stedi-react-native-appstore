@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import getSpikesFromAccelerometer from './utils/StepCalculator';
+import Bar from './Bar';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 
 export default function Counter() {
@@ -55,6 +57,7 @@ export default function Counter() {
   };
 
   const tallyLatestSteps= ()=>{
+    if (recentAccelerationData.length > 0){
     console.log("RecentAccelerationData: "+JSON.stringify(recentAccelerationData.current));
     const {spikes, previousHighPointTime} = getSpikesFromAccelerometer({recentAccelerationData: recentAccelerationData.current, threshold: 11, previousValue: previousValue.current, previousHighPointTime: previousHighPointTimeRef.current});
     previousValue.current = recentAccelerationData.current[recentAccelerationData.current.length-1].value;//store this for when we need to remember the last value
@@ -65,6 +68,7 @@ export default function Counter() {
     setStepCount(steps.current.length);
     console.log("Steps after: "+steps.current.length);
     recentAccelerationData.current=[];
+    }
   }
 
   const _unsubscribe = () => {
@@ -86,32 +90,37 @@ export default function Counter() {
         
 
 
-
+console.log(stepCount, "stepCount");
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-       steps: {stepCount}
-      </Text>
-      <View style={styles.buttonContainer}>
+    <View style={styles.Bar}>
+     <Bar/>
+   
+    <View style={styles.screen}>
+    <CircularProgress
+    value={stepCount}
+    style={styles.button2}
+  radius={100}
+  duration={2000}
+  progressValueColor={'#ecf0f1'}
+  maxValue={300}
+  title={'Steps'}
+  titleColor={'black'}
+  titleStyle={{fontWeight: 'bold'}}
+/>
+
+
+     
         <TouchableOpacity
           onPress={subscription ? _unsubscribe : _subscribe}
           style={styles.button}
         >
           <Text>{subscription ? 'Stop' : 'Start'}</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={_slow}
-          style={[styles.button, styles.middleButton]}
-        >
-          <Text>Slow</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={_fast} style={styles.button}>
-          <Text>Fast</Text>
-        </TouchableOpacity>
+    
       </View>
     </View>
+    
+
   );
 }
 
@@ -123,29 +132,28 @@ function round(n) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-  },
-  text: {
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    marginTop: 15,
-  },
-  button: {
-    flex: 1,
+  screen: {
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
+
+  },
+
+  button: {
+    marginTop: 20,
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 10,
+    borderRadius: 100,
+    backgroundColor: 'green',
   },
-  middleButton: {
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: '#ccc',
-  },
+  button2:{
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  }
 });
