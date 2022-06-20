@@ -7,7 +7,7 @@ import Bar  from './Bar.js';
 const Help = () => {
   return (
     <View>
-     <Bar />
+     
 
     </View>
   );

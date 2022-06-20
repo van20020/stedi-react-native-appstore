@@ -48,7 +48,7 @@ export default function Counter() {
         console.log(new Date().getTime()+","+total_amount_xyz);
         console.log("Steps: "+steps.current.length);
         recentAccelerationData.current.push({time: new Date().getTime(), value: total_amount_xyz});
-
+         console.log("recentAccelerationData.length", recentAccelerationData.current.length);
         if (recentAccelerationData.current.length>20){
           tallyLatestSteps();
         } 
@@ -57,7 +57,8 @@ export default function Counter() {
   };
 
   const tallyLatestSteps= ()=>{
-    if (recentAccelerationData.length > 0){
+    console.log("tallyrecentAccelerationData.length", recentAccelerationData.current.length);
+    if (recentAccelerationData.current.length > 0){
     console.log("RecentAccelerationData: "+JSON.stringify(recentAccelerationData.current));
     const {spikes, previousHighPointTime} = getSpikesFromAccelerometer({recentAccelerationData: recentAccelerationData.current, threshold: 11, previousValue: previousValue.current, previousHighPointTime: previousHighPointTimeRef.current});
     previousValue.current = recentAccelerationData.current[recentAccelerationData.current.length-1].value;//store this for when we need to remember the last value
@@ -68,12 +69,19 @@ export default function Counter() {
     setStepCount(steps.current.length);
     console.log("Steps after: "+steps.current.length);
     recentAccelerationData.current=[];
+   if( stepCount >= 30) {
+    _unsubscribe();
+   }
+  
     }
   }
 
+  
+
   const _unsubscribe = () => {
-    tallyLatestSteps();//count the last remaining steps before unsubscribing
+    // tallyLatestSteps();//count the last remaining steps before unsubscribing
     subscription && subscription.remove();
+    console.log("_")
     setSubscription(null);
   };
 
@@ -92,33 +100,33 @@ export default function Counter() {
 
 console.log(stepCount, "stepCount");
   return (
-    <View style={styles.Bar}>
+     <View> 
      <Bar/>
-   
-    <View style={styles.screen}>
+     <View style={styles.screen}> 
     <CircularProgress
     value={stepCount}
     style={styles.button2}
   radius={100}
-  duration={2000}
-  progressValueColor={'#ecf0f1'}
-  maxValue={300}
+  duration={1000}
+  progressValueColor={'black'}
+  maxValue={30}
   title={'Steps'}
-  titleColor={'black'}
+  titleColor='#222'
+  inActiveStrokeColor = {'#A0CE4E'}
+  inActiveStrokeOpacity={0.4}
   titleStyle={{fontWeight: 'bold'}}
 />
 
-
-     
         <TouchableOpacity
           onPress={subscription ? _unsubscribe : _subscribe}
           style={styles.button}
         >
-          <Text>{subscription ? 'Stop' : 'Start'}</Text>
+          <Text>{subscription ? 'Stop' : 'GO'}</Text>
         </TouchableOpacity>
     
       </View>
-    </View>
+      </View>
+  
     
 
   );
@@ -133,27 +141,20 @@ function round(n) {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 2,
-    justifyContent: 'center',
+    flex: 1,
+    // justifyContent: 'center',
     alignItems: 'center',
-
   },
 
   button: {
-    marginTop: 20,
+    marginTop: 15,
     width: 100,
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     borderRadius: 100,
-    backgroundColor: 'green',
-  },
-  button2:{
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+    backgroundColor: '#fc9c54',
   }
+
 });

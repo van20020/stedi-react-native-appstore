@@ -4,19 +4,16 @@ import AppName from "./AppName";
 import { Avatar } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 
+
+const  openMenu = ()=>{
+
+}
+
 function Bar() {
     return(
         <View style={styles.bar}>
           <AppName />
-       <Avatar
-         size="small"
-         rounded
-         title="MT"
-         onPress={() => console.log("Works!")}
-         activeOpacity={0.7}
-         />
-        <MaterialIcons name = 'menu' color='white'
-          size={28} />
+          <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon} />
         </View>
     )
   }
@@ -34,6 +31,7 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         paddingLeft: 10,
         paddingRight: 10,
+        marginBottom:50
         
       }
 })

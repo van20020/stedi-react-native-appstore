@@ -6,7 +6,9 @@ import Help from './Help';
 import Insights from './Insights.js';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+
+
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -55,9 +57,6 @@ export default function App() {
 
 
 }
-
-//SECOND NAV
-
 
 
 const styles = StyleSheet.create({

@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   appName: {
     paddingLeft:10,
     position: 'absolute',
-    left: 5,
-    top: 0,
+    left: 50,
+    top: 15,
     paddingTop:30
   },
  
