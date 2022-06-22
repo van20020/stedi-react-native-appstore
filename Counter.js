@@ -45,10 +45,10 @@ export default function Counter() {
         const { x, y, z } = data.current;
         //console.log("x: "+x+" y:"+y+" z:"+z);
         let total_amount_xyz = Math.sqrt(x * x+ y*y + z*z) * 9.81;
-        console.log(new Date().getTime()+","+total_amount_xyz);
-        console.log("Steps: "+steps.current.length);
+        // console.log(new Date().getTime()+","+total_amount_xyz);
+        // console.log("Steps: "+steps.current.length);
         recentAccelerationData.current.push({time: new Date().getTime(), value: total_amount_xyz});
-         console.log("recentAccelerationData.length", recentAccelerationData.current.length);
+        //  console.log("recentAccelerationData.length", recentAccelerationData.current.length);
         if (recentAccelerationData.current.length>20){
           tallyLatestSteps();
         } 
@@ -57,20 +57,23 @@ export default function Counter() {
   };
 
   const tallyLatestSteps= ()=>{
-    console.log("tallyrecentAccelerationData.length", recentAccelerationData.current.length);
+    // console.log("tallyrecentAccelerationData.length", recentAccelerationData.current.length);
     if (recentAccelerationData.current.length > 0){
-    console.log("RecentAccelerationData: "+JSON.stringify(recentAccelerationData.current));
+    // console.log("RecentAccelerationData: "+JSON.stringify(recentAccelerationData.current));
     const {spikes, previousHighPointTime} = getSpikesFromAccelerometer({recentAccelerationData: recentAccelerationData.current, threshold: 11, previousValue: previousValue.current, previousHighPointTime: previousHighPointTimeRef.current});
     previousValue.current = recentAccelerationData.current[recentAccelerationData.current.length-1].value;//store this for when we need to remember the last value
     previousHighPointTimeRef.current = previousHighPointTime;
-    console.log("Spikes: "+JSON.stringify(spikes)+ " with length: "+spikes.length);
-    console.log("Steps before: "+steps.current.length);
+    // console.log("Spikes: "+JSON.stringify(spikes)+ " with length: "+spikes.length);
+    // console.log("Steps before: "+steps.current.length);
     steps.current=steps.current.concat(spikes);
-    setStepCount(steps.current.length);
-    console.log("Steps after: "+steps.current.length);
+    // console.log("Steps after: "+steps.current.length);
     recentAccelerationData.current=[];
-   if( stepCount >= 30) {
+   if( steps.current.length >= 30) {
+    console.log("_unsubscribe");
+    setStepCount(30);
     _unsubscribe();
+   }else{
+    setStepCount(steps.current.length);
    }
   
     }
@@ -81,6 +84,7 @@ export default function Counter() {
   const _unsubscribe = () => {
     // tallyLatestSteps();//count the last remaining steps before unsubscribing
     subscription && subscription.remove();
+    Accelerometer.removeAllListeners();
     console.log("_")
     setSubscription(null);
   };
@@ -96,16 +100,15 @@ export default function Counter() {
   //console.log("x: "+x+" y:"+y+" z:"+z);
   let total_amount_xyz = Math.sqrt(x * x+ y*y + z*z) * 9.81;
         
-
+//circula process bar
 
 console.log(stepCount, "stepCount");
   return (
      <View> 
      <Bar/>
      <View style={styles.screen}> 
-    <CircularProgress
+    <CircularProgress style={styles.button2}
     value={stepCount}
-    style={styles.button2}
   radius={100}
   duration={1000}
   progressValueColor={'black'}
@@ -142,8 +145,7 @@ function round(n) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    // justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: "center"
   },
 
   button: {
@@ -155,6 +157,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 100,
     backgroundColor: '#fc9c54',
+
+  },
+  button2:{
+   paddingTop:50
+    // justifyContent: "center",
+    // alignItems: "center",
   }
+  
 
 });

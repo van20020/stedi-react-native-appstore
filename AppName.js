@@ -6,7 +6,7 @@ function AppName() {
     return (
       <View style={styles.appName}>
         <Image
-         style={{ width:240, height: 50 }}
+         style={{ width:240, height: 40 }}
           source={logo}/>
       </View>
     );
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     paddingLeft:10,
     position: 'absolute',
     left: 50,
-    top: 15,
-    paddingTop:30
+    // top: 65,
+    // paddingTop:30
   },
  
 })

@@ -4,7 +4,7 @@ import { Card, Button } from 'react-native-elements';
 import Icons from './Icons.js';
 import Bar  from './Bar.js';
 
-const Insights = () => {
+const Progress = () => {
   return (
     <View>
      <Bar />
@@ -13,4 +13,4 @@ const Insights = () => {
   );
 };
 
-export default Insights;
+export default Progress;
