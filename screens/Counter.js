@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
-import getSpikesFromAccelerometer from './utils/StepCalculator';
-import Bar from './Bar';
+import getSpikesFromAccelerometer from '../utils/StepCalculator';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import { Line, G } from 'react-native-svg'
+import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,
+} from 'react-native-cool-speedometer';
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+import exerciseImg from '../image/test.png';
+import ProgressBar from 'react-native-progress/Bar';
 
 
 export default function Counter() {
@@ -101,13 +106,28 @@ export default function Counter() {
   let total_amount_xyz = Math.sqrt(x * x+ y*y + z*z) * 9.81;
         
 //circula process bar
-
 console.log(stepCount, "stepCount");
+
   return (
-     <View> 
-     <Bar/>
      <View style={styles.screen}> 
-    <CircularProgress style={styles.button2}
+     <Card style={{backgroundColor:'#D9F2AD', borderRadius: 5,  paddingTop:10, width: 300 }}>
+     <CardTitle 
+   subtitle={'Steps'}
+   title={stepCount}
+   />
+<CardContent>
+   <CardImage
+    // source={exerciseImg}
+    // style={styles.image}
+   />
+  <CardButton style={styles.button}
+     onPress={subscription ? _unsubscribe : _subscribe}
+     title= {subscription ? 'Stop' : 'GO'}
+     />
+     </CardContent>
+</Card>
+<Progress.Bar progress={0.3} width={200} />
+    {/* <CircularProgress style={styles.button2}
     value={stepCount}
   radius={100}
   duration={1000}
@@ -117,21 +137,68 @@ console.log(stepCount, "stepCount");
   titleColor='#222'
   inActiveStrokeColor = {'#A0CE4E'}
   inActiveStrokeOpacity={0.4}
-  titleStyle={{fontWeight: 'bold'}}
-/>
-
-        <TouchableOpacity
+  titleStyle={{fontWeight: 'bold'}} */}
+{/* /> */}
+{/* button */}
+        {/* <TouchableOpacity
           onPress={subscription ? _unsubscribe : _subscribe}
           style={styles.button}
         >
           <Text>{subscription ? 'Stop' : 'GO'}</Text>
-        </TouchableOpacity>
-    
-      </View>
-      </View>
-  
-    
+        </TouchableOpacity> */}
 
+{/* gauge  */}
+
+{/* <Speedometer
+  value={54}
+  max={80}
+  angle={160}
+  fontFamily='squada-one'
+  accentColor='#A0CE4E'
+
+>
+  <Background angle={180} color={'none'} />
+  <Arc/>
+  <Needle color="#444"/>
+  <Progress/>
+  <Marks step={5}>
+        {(mark, i) => (
+          <G key={i}>
+            {mark.isEven && (
+              <Text
+                {...mark.textProps}
+                textAnchor="middle"
+                alignmentBaseline="middle"
+                fontSize={18}
+                opacity={0.6}
+              >
+              </Text>
+            )}
+            <Line
+              {...mark.coordinates}
+              stroke="black"
+              strokeOpacity={0.4}
+            />
+          </G>
+        )}
+      </Marks>
+  <Indicator>
+    {(value, textProps) => (
+      <Text
+        {...textProps}
+        fontSize={60}
+        fill="#555"
+        x={250 / 2}
+        y={210}
+        textAnchor="middle"
+        fontFamily='squada-one'
+      >
+        {value}Balance Score
+      </Text>
+    )}
+  </Indicator>
+</Speedometer> */}
+      </View>
   );
 }
 
@@ -145,24 +212,27 @@ function round(n) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center"
   },
 
   button: {
-    marginTop: 15,
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+    // marginTop: 15,
+    // width: 100,
+    // height: 100,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // padding: 10,
     borderRadius: 100,
-    backgroundColor: '#fc9c54',
+    backgroundColor: 'white'
 
   },
+
+  image:{
+    width: 10
+  },
   button2:{
-   paddingTop:50
-    // justifyContent: "center",
-    // alignItems: "center",
+   paddingTop:50,
   }
   
 

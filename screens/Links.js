@@ -1,17 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, Linking } from 'react-native';
-import Bar from './Bar.js';
+import { SafeAreaView, Text, StyleSheet, Linking } from 'react-native';
 
-const Links = () => {
+
+const Links = (props) => {
     const url="https://www.stedibalance.com/";
     const youtubeUrl ="https://www.youtube.com/channel/UCDWI0nAwzZB8HB4569K0otg";
   return (
- <View>
-    <Bar/>
-    <Text  style={styles.text} onPress={() => Linking.openURL(url)}>Learn about Stedi Balance
-     </Text>
+    <SafeAreaView>
+    <Text  style={styles.text} onPress={() => Linking.openURL(url)}>Learn about Stedi Balance</Text>
      <Text style={styles.text} onPress={() => Linking.openURL(youtubeUrl)}>Tutorials</Text>
- </View>
+ </SafeAreaView>
   )
 }
 

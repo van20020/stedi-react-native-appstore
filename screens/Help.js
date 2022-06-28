@@ -79,13 +79,12 @@
 import React from 'react';
 import { View,Text, StyleSheet } from 'react-native';
 import {Collapse, CollapseHeader, CollapseBody} from "accordion-collapse-react-native";
-import Bar from './Bar';
 
 
-const Help = () =>{
+
+const Help = (props) =>{
 return(
 <View>
-  <Bar/>
     <Collapse >
       <CollapseHeader >
         <View>
