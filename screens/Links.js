@@ -17,8 +17,10 @@ export default Links
 const styles = StyleSheet.create({
     text:{
      marginLeft:15,
+     marginTop:12,
      marginRight:15,
      fontSize: 18,
       height: 44,
+      color: '#0000EE'
     }
   });

@@ -126,9 +126,9 @@ export default Help;
   text:{
   marginLeft:15,
    marginRight:15,
-   marginTop:5,
-   fontSize: 20,
-   fontWeight: 'bold',
+   marginTop:15,
+   fontSize: 18,
+  //  fontWeight: 'bold',
     height: 44,
   },
   text2:{

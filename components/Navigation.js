@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
-import {FontAwesome} from '@expo/vector-icons'
+import {FontAwesome5} from '@expo/vector-icons';
+import{ Ionicons} from '@expo/vector-icons';
 
 import Help from '../screens/Help';
 import Counter from '../screens/Counter';
@@ -18,8 +19,13 @@ import Profile from '../screens/Profile';
 const Stack = createNativeStackNavigator();
 
 const ProgressStackScreen = () =>{
+
     return(
-     <Stack.Navigator>
+     <Stack.Navigator
+     screenOptions= {{
+        headerStyle:{backgroundColor:'#A0CE4E'},
+        headerTintColor:'white'}}
+     >
         <Stack.Screen name="Progress" component={Progress} options={{
              headerTitleAlign: "center"}}>
         </Stack.Screen>
@@ -30,7 +36,11 @@ const ProgressStackScreen = () =>{
 
 const counterStackScreen = () =>{
     return(
-     <Stack.Navigator>
+     <Stack.Navigator
+     screenOptions= {{
+        headerStyle:{backgroundColor:'#A0CE4E'},
+        headerTintColor:'white'}}
+     >
         <Stack.Screen name="Counter" component={Counter} options={{
              headerTitleAlign: "center"}}>
         </Stack.Screen>
@@ -40,7 +50,11 @@ const counterStackScreen = () =>{
 
 const ProfileStackScreen = () =>{
     return(
-     <Stack.Navigator>
+     <Stack.Navigator
+     screenOptions= {{
+        headerStyle:{backgroundColor:'#A0CE4E'},
+        headerTintColor:'white'}}>
+
         <Stack.Screen name="Profile" component={Profile} options={{
              headerTitleAlign: "center"}} >
         </Stack.Screen>
@@ -51,7 +65,11 @@ const ProfileStackScreen = () =>{
 
 const linksStackScreen = () =>{
     return(
-     <Stack.Navigator>
+     <Stack.Navigator
+     screenOptions= {{
+        headerStyle:{backgroundColor:'#A0CE4E'},
+        headerTintColor:'white'}}
+     >
         <Stack.Screen name="About" component={Links} options={{
              headerTitleAlign: "center"}}>
         </Stack.Screen>
@@ -62,9 +80,15 @@ const linksStackScreen = () =>{
 
 const helpStackScreen = () =>{
     return(
-     <Stack.Navigator>
+     <Stack.Navigator
+     
+     screenOptions= {{
+        headerStyle:{backgroundColor:'#A0CE4E'},
+        headerTintColor:'white',  }}
+     >
         <Stack.Screen name="Help" component={Help} options={{
-             headerTitleAlign: "center"}}>
+             headerTitleAlign: "center"}}
+             >
         </Stack.Screen>
      </Stack.Navigator>
     );
@@ -81,15 +105,15 @@ export default function Navigation (props) {
         <NavigationContainer>
         <Tab.Navigator
         initialRouteName='Progress'
-        activeColor='white'
+        activeColor='#A0CE4E'
         screenOptions={{
             showLabel: 'false',
             activeTintColor: 'Black',
 
         }}
         // shifting='true'
-         barStyle={{ backgroundColor: '#A0CE4E',
-         height:63,
+         barStyle={{ backgroundColor: 'white',
+        //  height:63,
          }}>
              
             <Tab.Screen  name="TabHome" 
@@ -98,7 +122,7 @@ export default function Navigation (props) {
                // tabBarColor:'pink',
                   tabBarLabel: 'Progress',
                 tabBarIcon: ({ color }) => (
-                 <MaterialCommunityIcons name='progress-star' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
+                 <Ionicons name='ios-bar-chart' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
                  ),
                  }}
             />
@@ -118,7 +142,7 @@ export default function Navigation (props) {
                 // tabBarColor:'pink',
                    tabBarLabel: 'Profile',
                  tabBarIcon: ({ color }) => (
-                  <FontAwesome name='user-circle-o' color={color} size={28}  style={{ width: 30,  height: 30, marginTop: -3 }}/>
+                  <FontAwesome5 name='user-alt' color={color} size={28}  style={{ width: 30,  height: 30, marginTop: -3 }}/>
                   ),
                   }}
             />
@@ -128,7 +152,7 @@ export default function Navigation (props) {
                 // tabBarColor:'pink',
                    tabBarLabel: 'About',
                  tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name='information-outline' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3}}/>
+                  <Ionicons name='md-information-circle-sharp' color={color} size={30} style={{ width: 30,  height: 30, marginTop: -3}}/>
                   ),
                   }}
             />
@@ -138,7 +162,7 @@ export default function Navigation (props) {
                 // tabBarColor:'pink',
                    tabBarLabel: 'Help',
                  tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name='help-circle-outline' color={color} size={30} style={{ width: 30, height: 30, marginTop: -5 }} />
+                  <Ionicons name='help-circle' color={color} size={32} style={{ width: 30, height: 30, marginTop: -5 }} />
                   ),
                   }}
             />

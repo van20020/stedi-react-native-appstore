@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Button } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import getSpikesFromAccelerometer from '../utils/StepCalculator';
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -7,7 +7,7 @@ import { Line, G } from 'react-native-svg'
 import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,
 } from 'react-native-cool-speedometer';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
-import exerciseImg from '../image/test.png';
+import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 
 
@@ -24,7 +24,7 @@ export default function Counter() {
   const [stepCount, setStepCount] = useState(0);
   const previousHighPointTimeRef = useRef(0);//this is the most recent time we had a spike in acceleration, we initialize it to 0 meaning none
   const previousValue = useRef(0);//we process every 20 measurements, and this will be the 20th measurement from the previous time we processed data, start it at 0
-
+  const [progress, setProgress] = useState(0);
   //Android Docs: The data delay (or sampling rate) controls the interval at which sensor events are sent to your application via the onSensorChanged() callback method. The default data delay is suitable for monitoring typical screen orientation changes and uses a delay of 200,000 microseconds. You can specify other data delays, such as SENSOR_DELAY_GAME (20,000 microsecond delay), SENSOR_DELAY_UI (60,000 microsecond delay), or SENSOR_DELAY_FASTEST (0 microsecond delay).
   // https://developer.android.com/guide/topics/sensors/sensors_overview#java
 
@@ -76,8 +76,10 @@ export default function Counter() {
    if( steps.current.length >= 30) {
     console.log("_unsubscribe");
     setStepCount(30);
+    setProgress(0.33);
     _unsubscribe();
    }else{
+    setProgress(progressValue(stepCount));
     setStepCount(steps.current.length);
    }
   
@@ -107,99 +109,41 @@ export default function Counter() {
         
 //circula process bar
 console.log(stepCount, "stepCount");
-
+const progressValue = (stepCount)=>{
+let progress = stepCount * 0.011;
+console.log("progressValue", progress);
+console.log("stepCount in fuction", stepCount)
+return progress;
+}
   return (
      <View style={styles.screen}> 
-     <Card style={{backgroundColor:'#D9F2AD', borderRadius: 5,  paddingTop:10, width: 300 }}>
+     <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
      <CardTitle 
    subtitle={'Steps'}
    title={stepCount}
    />
+   <Image source={exerciseImg}  style={styles.image} ></Image>
 <CardContent>
-   <CardImage
-    // source={exerciseImg}
-    // style={styles.image}
-   />
-  <CardButton style={styles.button}
-     onPress={subscription ? _unsubscribe : _subscribe}
-     title= {subscription ? 'Stop' : 'GO'}
-     />
+  <Text style={styles.text}>Step Quickly</Text>
+  <TouchableOpacity
+      onPress={subscription ? _unsubscribe : _subscribe}
+      style={styles.button}
+    >
+      <Text>{subscription ? 'Stop' : 'GO'}</Text>
+     </TouchableOpacity>
+
      </CardContent>
 </Card>
-<Progress.Bar progress={0.3} width={200} />
-    {/* <CircularProgress style={styles.button2}
-    value={stepCount}
-  radius={100}
-  duration={1000}
-  progressValueColor={'black'}
-  maxValue={30}
-  title={'Steps'}
-  titleColor='#222'
-  inActiveStrokeColor = {'#A0CE4E'}
-  inActiveStrokeOpacity={0.4}
-  titleStyle={{fontWeight: 'bold'}} */}
-{/* /> */}
-{/* button */}
-        {/* <TouchableOpacity
-          onPress={subscription ? _unsubscribe : _subscribe}
-          style={styles.button}
-        >
-          <Text>{subscription ? 'Stop' : 'GO'}</Text>
-        </TouchableOpacity> */}
-
-{/* gauge  */}
-
-{/* <Speedometer
-  value={54}
-  max={80}
-  angle={160}
-  fontFamily='squada-one'
-  accentColor='#A0CE4E'
-
->
-  <Background angle={180} color={'none'} />
-  <Arc/>
-  <Needle color="#444"/>
-  <Progress/>
-  <Marks step={5}>
-        {(mark, i) => (
-          <G key={i}>
-            {mark.isEven && (
-              <Text
-                {...mark.textProps}
-                textAnchor="middle"
-                alignmentBaseline="middle"
-                fontSize={18}
-                opacity={0.6}
-              >
-              </Text>
-            )}
-            <Line
-              {...mark.coordinates}
-              stroke="black"
-              strokeOpacity={0.4}
-            />
-          </G>
-        )}
-      </Marks>
-  <Indicator>
-    {(value, textProps) => (
-      <Text
-        {...textProps}
-        fontSize={60}
-        fill="#555"
-        x={250 / 2}
-        y={210}
-        textAnchor="middle"
-        fontFamily='squada-one'
-      >
-        {value}Balance Score
-      </Text>
-    )}
-  </Indicator>
-</Speedometer> */}
+<ProgressBar progress={progressValue(stepCount)} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
       </View>
   );
+}
+
+const progressValue = (stepCount)=>{
+let progress = stepCount * 0.011;
+console.log("progressValue", progress);
+console.log("stepCount in fuction", stepCount)
+return progress;
 }
 
 function round(n) {
@@ -217,22 +161,32 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    // marginTop: 15,
-    // width: 100,
-    // height: 100,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // padding: 10,
+    marginTop: 15,
+    marginBottom: 20,
+    width: 200,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
     borderRadius: 100,
-    backgroundColor: 'white'
+    backgroundColor: 'orange',
+    marginLeft:50
+    // textDecorationColor:"BLACK"
 
   },
-
+  text:{
+textAlign: 'center',
+marginBottom: 2
+  },
   image:{
-    width: 10
+    width: 122,
+    height: 290,
+  marginLeft: 100,
+  marginBottom: 20
   },
-  button2:{
-   paddingTop:50,
+  bar:{
+  marginTop:10,
+  marginBottom: 25
   }
   
 
