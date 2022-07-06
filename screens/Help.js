@@ -1,46 +1,72 @@
-import React, { useState} from 'react';
-import { View,Text, StyleSheet, TextInput } from 'react-native';
-import { TouchableOpacity } from 'react-native-web';
+import React, { useRef, useState} from 'react';
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
 const Help = (props) =>{
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [subject, setSubject] = useState(null);
-  const [message, setMessage] = useState(null);
-  this.state ={
-    Subject: ' '
-  }
+const [subject, setSubject] = useState('disabled');
+showOption = (option) =>{
+if( showOption !== 'disabled'){
+  setSubject(option);
+}}
+const [notification, setNotification] = useState (null);
+const [name, setName] = useState(null);
+const [email, setEmail] = useState(null);
+const [message, setMessage] = useState(null);
 
+const submit = async(event) =>{
+  try{
+await fetch('https://dev.stedi.me/contact',{
+  method:'POST',
+  body:JSON.stringify({
+name,
+email,
+subject,
+message
+  })
+})
+setNotification ("Thanks for submitting!");
+setEmail(null);
+setName(null);
+setMessage(null);
+setSubject(null);
+} catch(error){
+  console.log('error', error);
+}
+}
 return(
 <View>
 <Text style={styles.text}>Contact us</Text>
 <TextInput 
  style={styles.input}
  placeholder="Name"
+ value={name}
  onChangeText={(val)=> setName(val)}
  />
 
 <TextInput
         style={styles.input}
-        // onChangeText={newEmail=> setName(newEmail)}
+        value={email}
+        onChangeText={(val)=> setEmail(val)}
         placeholder="Email"
       />
-  <DropDownPicker style={styles.dropdown}
-          items={[
-              {label: 'The STEDI app is not working', value: 'The STEDI '},
-              {label: 'I have an idea for improving STEDI', value: 'I have'},
-              {label: 'I need help using the app', value: 'I need'},
-          ]}
-          defaultIndex={0}
-          containerStyle={{height: 40}}
-          onChangeItem={item => console.log(item.label, item.value)}
-      />
+      <View style={styles.dropdown} >
+      <Picker onValueChange={showOption}
+      selectedValue={subject}
+      >
+      <Picker.Item style={styles.disabledaText} label= 'Please select a subject' value= 'disabled' color='#aaa'/>
+        <Picker.Item label= 'The STEDI app is not working' value= 'APP_NOT_WORKING'/>
+        <Picker.Item  label= 'I have an idea for improving STEDI' value= 'IDEA_IMPROVE_STEDI'/>
+        <Picker.Item  label= 'I need help using the app' value= 'HELP_USING_APP'/>
+        <Picker.Item  label= 'I need advice about my balance' value= 'ADVICE_ABOUT_BALANCE'/>
+      </Picker>
+      </View>
  <TextInput
         style={styles.input2}
         multiline
         numberOfLines={8}
+        value={message}
         onChangeText={(val)=> setMessage(val)}
         placeholder="Message"
       />
@@ -49,6 +75,12 @@ title='Submit'
 onPress={()}
 style={styles.button} >
 </TouchableOpacity> */}
+ <Text>{notification}</Text>
+<TouchableOpacity
+  onPress={submit}
+  style={styles.button}>
+  <Text style={styles.text2}>Submit</Text>
+</TouchableOpacity>
   </View>
 )}
 export default Help;
@@ -58,7 +90,6 @@ export default Help;
    marginRight:15,
    marginTop:15,
    fontSize: 18,
-  //  fontWeight: 'bold',
     height: 44,
   },
   input: {
@@ -73,25 +104,36 @@ export default Help;
     borderWidth: 1,
     padding:5,
     borderRadius: 5,
-    marginTop:25
+    marginTop:25,
+    textAlignVertical: "top"
+ 
   },
   button: {
-  // marginTop: 15,
-  // marginBottom: 20,
-  // width: 200,
-  // height: 35,
+
   justifyContent: 'center',
   alignItems: 'center',
   padding: 10,
   borderRadius: 5,
-  // backgroundColor: 'orange',
-  // marginLeft:50
+  backgroundColor: '#A0CE4E',
+ tintColor: 'white',
+  marginLeft: 10,
+  marginRight: 10,
+  marginTop: 10,
+
   },
   dropdown:{
   width: 336,
-  height:40,
+  height:42,
   marginLeft:12,
-  marginBottom:10
-
+  marginTop:10,
+  borderRadius:5,
+  borderWidth:1,
+  },
+  text2:{
+    color:'white',
+    fontSize:15
+  },
+  disabledaText:{
+    fontSize:14,
   }
 })

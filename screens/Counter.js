@@ -79,7 +79,7 @@ export default function Counter() {
     setProgress(0.33);
     _unsubscribe();
    }else{
-    setProgress(progressValue(stepCount));
+    setProgress(progressValue(steps.current.length));
     setStepCount(steps.current.length);
    }
   
@@ -134,7 +134,7 @@ return progress;
 
      </CardContent>
 </Card>
-<ProgressBar progress={progressValue(stepCount)} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
+<ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
       </View>
   );
 }
