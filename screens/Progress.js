@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, SafeAreaView, Image } from 'react-native';
 
 
+
 const Progress = (props) => {
   return (
     <SafeAreaView>

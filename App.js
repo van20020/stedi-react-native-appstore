@@ -1,13 +1,43 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState, } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 import  Navigation from './components/Navigation';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import OnboardingScreen from './screens/OnboardingScreen';
+import Progress from './screens/Progress';
+import { NavigationContainer } from '@react-navigation/native';
 
 
+
+
+const AppStack = createNativeStackNavigator();
 
 const App = () =>{
-  return(
-      <Navigation/>
-  );
+  const [isFirstLaunch, setFirstLaunch] = React.useState(true);
+  // useEffect(() => {
+  //   AsyncStorage.getItem('alreadyLaunched').then(value=>{
+  //     if (value == null){
+  //       AsyncStorage.setItem('alreadyLaunched', 'true');
+  //       setFirstLaunch(true);
+  //     }else{
+  // setFirstLaunch(false);
+  //     }
+  //    })
+      
+  // }, []);
+
+   if (isFirstLaunch == true){
+return(
+  <OnboardingScreen setFirstLaunch={setFirstLaunch}/>
+  // <NavigationContainer>
+  // <AppStack.Navigator>
+  // <AppStack.Screen name='Onboarding' component={OnboardingScreen}/>
+  // <AppStack.Screen name='Progress' component={Progress}/>
+  // </AppStack.Navigator>
+  //       </NavigationContainer>
+);
+  }else{
+    return <Navigation/>
+  }
 }
  export default App;
 
