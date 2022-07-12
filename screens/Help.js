@@ -12,8 +12,8 @@ if( showOption !== 'disabled'){
 }}
 const [notification, setNotification] = useState (null);
 const [name, setName] = useState(null);
-const [email, setEmail] = useState(null);
-const [message, setMessage] = useState(null);
+const [toAddress, setToAddress] = useState(null);
+const [messageText, setMessageText] = useState(null);
 
 const submit = async(event) =>{
   try{
@@ -21,15 +21,15 @@ await fetch('https://dev.stedi.me/contact',{
   method:'POST',
   body:JSON.stringify({
 name,
-email,
+toAddress,
 subject,
-message
+messageText
   })
 })
 setNotification ("Thanks for submitting!");
-setEmail(null);
+setToAddress(null);
 setName(null);
-setMessage(null);
+setMessageText(null);
 setSubject(null);
 } catch(error){
   console.log('error', error);
@@ -47,8 +47,8 @@ return(
 
 <TextInput
         style={styles.input}
-        value={email}
-        onChangeText={(val)=> setEmail(val)}
+        value={toAddress}
+        onChangeText={(val)=> setToAddress(val)}
         placeholder="Email"
       />
       <View style={styles.dropdown} >
@@ -66,8 +66,8 @@ return(
         style={styles.input2}
         multiline
         numberOfLines={8}
-        value={message}
-        onChangeText={(val)=> setMessage(val)}
+        value={messageText}
+        onChangeText={(val)=> setMessageText(val)}
         placeholder="Message"
       />
 {/* <TouchableOpacity

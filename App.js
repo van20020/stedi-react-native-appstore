@@ -28,12 +28,7 @@ const App = () =>{
    if (isFirstLaunch == true){
 return(
   <OnboardingScreen setFirstLaunch={setFirstLaunch}/>
-  // <NavigationContainer>
-  // <AppStack.Navigator>
-  // <AppStack.Screen name='Onboarding' component={OnboardingScreen}/>
-  // <AppStack.Screen name='Progress' component={Progress}/>
-  // </AppStack.Navigator>
-  //       </NavigationContainer>
+ 
 );
   }else{
     return <Navigation/>
