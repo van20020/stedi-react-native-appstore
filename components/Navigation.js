@@ -8,8 +8,8 @@ import{ Ionicons} from '@expo/vector-icons';
 
 import Help from '../screens/Help';
 import Counter from '../screens/Counter';
-import Links from '../screens/Links';
-import Progress from '../screens/Progress';
+import About from '../screens/About';
+import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 
 
@@ -18,7 +18,7 @@ import Profile from '../screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
-const ProgressStackScreen = () =>{
+const HomeStackScreen = () =>{
 
     return(
      <Stack.Navigator
@@ -26,7 +26,7 @@ const ProgressStackScreen = () =>{
         headerStyle:{backgroundColor:'#A0CE4E'},
         headerTintColor:'white'}}
      >
-        <Stack.Screen name="Progress" component={Progress} options={{
+        <Stack.Screen name="Home" component={Home} options={{
              headerTitleAlign: "center"}}>
         </Stack.Screen>
      </Stack.Navigator>
@@ -63,14 +63,14 @@ const ProfileStackScreen = () =>{
 }
 
 
-const linksStackScreen = () =>{
+const AboutStackScreen = () =>{
     return(
      <Stack.Navigator
      screenOptions= {{
         headerStyle:{backgroundColor:'#A0CE4E'},
         headerTintColor:'white'}}
      >
-        <Stack.Screen name="About" component={Links} options={{
+        <Stack.Screen name="About" component={About} options={{
              headerTitleAlign: "center"}}>
         </Stack.Screen>
      </Stack.Navigator>
@@ -104,7 +104,7 @@ export default function Navigation (props) {
     return(
         <NavigationContainer>
         <Tab.Navigator
-        initialRouteName='Progress'
+        initialRouteName='Home'
         activeColor='#A0CE4E'
         screenOptions={{
             showLabel: 'false',
@@ -117,12 +117,12 @@ export default function Navigation (props) {
          }}>
              
             <Tab.Screen  name="TabHome" 
-            component={ProgressStackScreen} 
+            component={HomeStackScreen} 
             options={{
                // tabBarColor:'pink',
-                  tabBarLabel: 'Progress',
+                  tabBarLabel: 'Home',
                 tabBarIcon: ({ color }) => (
-                 <Ionicons name='ios-bar-chart' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
+                 <Ionicons name='home-sharp' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
                  ),
                  }}
             />
@@ -146,8 +146,8 @@ export default function Navigation (props) {
                   ),
                   }}
             />
-            <Tab.Screen name="TabLinks" 
-            component={linksStackScreen}
+            <Tab.Screen name="TabAbout" 
+            component={AboutStackScreen}
             options={{
                 // tabBarColor:'pink',
                    tabBarLabel: 'About',

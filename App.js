@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, AsyncStorage } from 'r
 import  Navigation from './components/Navigation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnboardingScreen from './screens/OnboardingScreen';
-import Progress from './screens/Progress';
+import Home from './screens/Home';
 import { NavigationContainer } from '@react-navigation/native';
 
 

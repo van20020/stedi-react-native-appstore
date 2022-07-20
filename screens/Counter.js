@@ -9,9 +9,69 @@ import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+
+
 
 
 export default function Counter() {
+ const [completionCount, setCompletionCount] = useState(0);
+ const [counter, setCounter] = React.useState(180);
+
+ useEffect(() => {
+  counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+}, [counter]);
+//  const [timer, setTimer] = useState('3:00');
+
+//  const [secondsLeft, setSecondsLeft] = useState (180);
+//  const [timerOn, setTimerOn] = useState(false);
+
+//  useEffect(()=>{
+// if(timerOn) startTimer();
+// else{
+//   BackgroundTimer.stopBackgroundTimer();
+
+//   return() =>{
+//     BackgroundTimer.stopBackgroundTimer();
+//   };
+// }},[timerOn]);
+
+// useEffect(()=>{
+//   if (secondsLeft === 0){
+//     BackgroundTimer.stopBackgroundTimer();
+//   }
+// }, [secondsLeft]);
+
+// const  startTimer = () => {
+//   BackgroundTimer.runBackgroundTimer(()=>{
+//     setSecondsLeft(secs =>{
+//       if(secs > 0) return secs -1
+//       else return 0;
+
+//     })
+//   }, 1000)
+// }
+
+ const clockify = () =>{
+  let hours = Math.floor(counter / 60 / 60);
+  let mins=  Math.floor(counter / 60 % 60);
+  let seconds = Math.floor(counter% 60);
+
+  let displayHours = hours < 10? `0${hours}` : hours;
+  let displayMins = mins < 10? `0${mins}` : mins;
+  let displaySeconds = seconds < 10? `0${seconds}` : seconds;
+  return{
+  displayHours, 
+  displayMins, 
+  displaySeconds,
+  };
+ };
+ 
+
+
+
+
   const data = useRef({
     x: 0,
     y: 0,
@@ -78,6 +138,7 @@ export default function Counter() {
     setStepCount(30);
     setProgress(0.33);
     _unsubscribe();
+    setCompletionCount(completionCount + 1);
    }else{
     setProgress(progressValue(steps.current.length));
     setStepCount(steps.current.length);
@@ -115,6 +176,16 @@ console.log("progressValue", progress);
 console.log("stepCount in fuction", stepCount)
 return progress;
 }
+
+// 3 min timer
+// setTimeout(() => {
+//   timerSeconds.current = timerSeconds.current -1
+//   setTimer(timerSeconds.current);
+//   console.log("1 sec.")
+// }, 1000);
+
+if (completionCount === 0){
+
   return (
      <View style={styles.screen}> 
      <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
@@ -122,6 +193,7 @@ return progress;
    subtitle={'Steps'}
    title={stepCount}
    />
+   <FontAwesome5  name='redo' color='red' size={20} style={{ alignSelf: 'flex-end', marginTop:30, paddingRight:15, position: 'absolute'}} />
    <Image source={exerciseImg}  style={styles.image} ></Image>
 <CardContent>
   <Text style={styles.text}>Step Quickly</Text>
@@ -137,14 +209,69 @@ return progress;
 <ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
       </View>
   );
+
+  }
+  
+else if (completionCount === 1){
+  return(
+    <View style={styles.screen}> 
+    <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
+    <CardTitle 
+    subtitle={'Take a break of 3 min'}
+  />
+  <Text>{clockify().displayHours}:{clockify().displayMins}:{clockify().displaySeconds}</Text>
+<CardContent>
+ <TouchableOpacity disabled={true}
+     onPress={ ()=>setTimerOn(current => !current,  subscription ? _unsubscribe : _subscribe )}
+    //  {subscription ? _unsubscribe : _subscribe}
+     style={styles.button}
+   >
+     <Text>{subscription ? 'Stop' : 'GO'}</Text>
+    </TouchableOpacity>
+    </CardContent>
+</Card>
+<ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
+     </View>
+
+  );
+
+  } else if(completionCount > 1){
+      return(
+        <View style={styles.screen}> 
+        <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
+        <CardTitle 
+      subtitle={'Steps'}
+      title={stepCount}
+       
+      />
+      <Image source={exerciseImg}  style={styles.image} ></Image>
+    <CardContent>
+     <Text style={styles.text}>Step Quickly</Text>
+     <TouchableOpacity
+         onPress={subscription ? _unsubscribe : _subscribe}
+         style={styles.button}
+       >
+         <Text>{subscription ? 'Stop' : 'GO'}</Text>
+        </TouchableOpacity>
+    
+        </CardContent>
+    </Card>
+    <ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
+         </View>
+      );
+
+      }
+
+
 }
 
-const progressValue = (stepCount)=>{
-let progress = stepCount * 0.011;
-console.log("progressValue", progress);
-console.log("stepCount in fuction", stepCount)
-return progress;
-}
+
+// const progressValue = (stepCount)=>{
+// let progress = stepCount * 0.011;
+// console.log("progressValue", progress);
+// console.log("stepCount in fuction", stepCount)
+// return progress;
+// }
 
 function round(n) {
   if (!n) {
