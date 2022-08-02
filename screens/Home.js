@@ -1,7 +1,9 @@
 import React, {useState}from 'react';
-import { StyleSheet, Text, SafeAreaView, Image, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Image, View, ScrollView, Dimensions } from 'react-native';
 import {FontAwesome5} from '@expo/vector-icons';
 import quotes from '../data/quote.json';
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+
 
 
 
@@ -26,14 +28,48 @@ const colorsToday = colors[day.getDay()];
 
   return (
     <SafeAreaView style={{alignItems:'center'}}>
-      <View style={{width:'80%', backgroundColor:backgroundColorsToday, borderRadius:20, padding:20, marginTop:10}}>
-      {/* <Text style={{textAlign:'center', marginBottom:20,fontSize:18,fontWeight:'bold' }}>Quote of the day</Text> */}
+      <View style={{width:'90%', backgroundColor:backgroundColorsToday, borderRadius:20, padding:20, marginTop:20 }}>
       <FontAwesome5 name="quote-left" style={{fontSize:30, marginBottom:1, color:colorsToday}}/>
       <Text style={{fontSize:16, lineHeight:26, color:'white' ,textAlign:'center',fontWeight:'400', marginBottom:10, letterSpacing:1.1, paddingHorizontal:27}}>{quote}</Text>
       <Text style={{textAlign:'right', fontStyle:'italic', fontSize:13, fontWeight:'300', color:colorsToday}}>― {author}</Text>
       </View> 
+      <View style={{ flexDirection:'row', flexWrap: 'wrap', paddingLeft:15, paddingRight:15 }}> 
+      <Card style={{width:'50%',borderRadius:20, padding:20, marginTop:20, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
+        <CardTitle 
+        title='Today'
+       />
+        <CardContent  >
+          
+        </CardContent>
+      </Card>
+      <Card style={{ width:'50%', borderRadius:20, padding:20, marginTop:20, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
+        <CardTitle 
+        title='Weekly'
+       />
+        <CardContent  >
+          
+        </CardContent>
+       
+      </Card>
+      </View>
+      <View>
+      <Card style={{ width:'50%', borderRadius:20, padding:20, marginTop:20, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
+        <CardTitle 
+        title='Monthly'
+       />
+        <CardContent>     
+        </CardContent>
+      </Card>
+      </View>
     </SafeAreaView>
   );
 };
 
 export default Home;
+const styles = StyleSheet.create({
+  container:{
+
+
+  }
+});
+

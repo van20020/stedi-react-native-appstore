@@ -13,17 +13,6 @@ const AppStack = createNativeStackNavigator();
 
 const App = () =>{
   const [isFirstLaunch, setFirstLaunch] = React.useState(true);
-  // useEffect(() => {
-  //   AsyncStorage.getItem('alreadyLaunched').then(value=>{
-  //     if (value == null){
-  //       AsyncStorage.setItem('alreadyLaunched', 'true');
-  //       setFirstLaunch(true);
-  //     }else{
-  // setFirstLaunch(false);
-  //     }
-  //    })
-      
-  // }, []);
 
    if (isFirstLaunch == true){
 return(

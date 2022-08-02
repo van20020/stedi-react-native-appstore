@@ -13,15 +13,28 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 
-
-
 export default function Counter() {
- const [completionCount, setCompletionCount] = useState(0);
- const [counter, setCounter] = React.useState(180);
+ const completionCount = useRef(0);
+ const [counter, setCounter] = useState(180);
+
+ const [currentScreen, setCurrentScreen] = useState('counter');
+
 
  useEffect(() => {
-  counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
-}, [counter]);
+  counter > 0 && setTimeout(() => {    
+    //completionCount is how many timme the user have done 30 steps. In This case, after the first 30 steps the progress bar keep progressing
+    if (currentScreen == 'break'){
+      if(counter == 1 ){
+        setCurrentScreen('counter');
+        setStepCount(0);
+      }
+      setCounter(counter - 1);
+      console.log(progress);
+    }
+  }, 1000);
+}, [counter, currentScreen]);
+
+
 //  const [timer, setTimer] = useState('3:00');
 
 //  const [secondsLeft, setSecondsLeft] = useState (180);
@@ -56,7 +69,7 @@ export default function Counter() {
  const clockify = () =>{
   let hours = Math.floor(counter / 60 / 60);
   let mins=  Math.floor(counter / 60 % 60);
-  let seconds = Math.floor(counter% 60);
+  let seconds = Math.floor(counter % 60);
 
   let displayHours = hours < 10? `0${hours}` : hours;
   let displayMins = mins < 10? `0${mins}` : mins;
@@ -135,19 +148,21 @@ export default function Counter() {
     recentAccelerationData.current=[];
    if( steps.current.length >= 30) {
     console.log("_unsubscribe");
-    setStepCount(30);
-    setProgress(0.33);
+    setStepCount(0);
+    setProgress(0.5);
     _unsubscribe();
-    setCompletionCount(completionCount + 1);
+    completionCount.current =  completionCount.current + 1;
+    console.log('completationCount:', completionCount.current);
+    if(completionCount.current == 1){
+      setCurrentScreen('break');
+    }
    }else{
-    setProgress(progressValue(steps.current.length));
     setStepCount(steps.current.length);
    }
-  
+   setProgress(progressValue(steps.current.length));
     }
   }
 
-  
 
   const _unsubscribe = () => {
     // tallyLatestSteps();//count the last remaining steps before unsubscribing
@@ -171,24 +186,30 @@ export default function Counter() {
 //circula process bar
 console.log(stepCount, "stepCount");
 const progressValue = (stepCount)=>{
-let progress = stepCount * 0.011;
+  //0.50/30 is 0.01666666666666666666
+let progress =( stepCount * (0.50/30));
+  progress = progress + completionCount.current * 0.50;
 console.log("progressValue", progress);
 console.log("stepCount in fuction", stepCount)
 return progress;
 }
 
-// 3 min timer
-// setTimeout(() => {
-//   timerSeconds.current = timerSeconds.current -1
-//   setTimer(timerSeconds.current);
-//   console.log("1 sec.")
-// }, 1000);
 
-if (completionCount === 0){
+
+
+if (currentScreen === 'counter'){
 
   return (
      <View style={styles.screen}> 
-     <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
+     <Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 20, marginBottom:20 ,width: 320, shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 2,
+},
+shadowOpacity: 0.23,
+shadowRadius: 2.62,
+
+elevation: 4}}>
      <CardTitle 
    subtitle={'Steps'}
    title={stepCount}
@@ -205,58 +226,59 @@ if (completionCount === 0){
      </TouchableOpacity>
 
      </CardContent>
+     <ProgressBar progress={progress} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
 </Card>
-<ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
       </View>
   );
 
   }
   
-else if (completionCount === 1){
+else if (currentScreen === 'break'){
   return(
     <View style={styles.screen}> 
-    <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
-    <CardTitle 
-    subtitle={'Take a break of 3 min'}
+    <Card style={{backgroundColor:'#D9F2AD',  borderRadius: 10, marginTop: 20, marginBottom:20 ,width: 320, shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 2,
+},
+shadowOpacity: 0.23,
+shadowRadius: 2.62,
+
+elevation: 4}}>
+    <FontAwesome5  name='redo' color='red' size={20} style={{ alignSelf: 'flex-end', marginTop:30, paddingRight:15, position: 'absolute'}} />
+    <CardTitle style={{marginLeft: 10, marginTop:40}}
+    subtitle='Take a break for 3 mins'
   />
-  <Text>{clockify().displayHours}:{clockify().displayMins}:{clockify().displaySeconds}</Text>
+  <Text style={{fontSize:50, fontWeight:'bold', marginLeft:60, marginBottom:100}}>{clockify().displayHours}:{clockify().displayMins}:{clockify().displaySeconds}</Text>
 <CardContent>
- <TouchableOpacity disabled={true}
+ {/* <TouchableOpacity disabled={true} 
      onPress={ ()=>setTimerOn(current => !current,  subscription ? _unsubscribe : _subscribe )}
     //  {subscription ? _unsubscribe : _subscribe}
-     style={styles.button}
-   >
+     style={{marginTop:50,  width: 200, height: 35, borderRadius: 100, backgroundColor: 'gray', alignItems: 'center', marginLeft:50, marginTop:120, padding:7}}>
      <Text>{subscription ? 'Stop' : 'GO'}</Text>
-    </TouchableOpacity>
+    </TouchableOpacity> */}
+    <ProgressBar progress={progress} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
     </CardContent>
 </Card>
-<ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
+
      </View>
 
   );
 
-  } else if(completionCount > 1){
+  } else if(currentScreen > 'result'){
       return(
         <View style={styles.screen}> 
         <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
         <CardTitle 
-      subtitle={'Steps'}
-      title={stepCount}
+      title='Outcomes'
        
       />
-      <Image source={exerciseImg}  style={styles.image} ></Image>
+
     <CardContent>
-     <Text style={styles.text}>Step Quickly</Text>
-     <TouchableOpacity
-         onPress={subscription ? _unsubscribe : _subscribe}
-         style={styles.button}
-       >
-         <Text>{subscription ? 'Stop' : 'GO'}</Text>
-        </TouchableOpacity>
+     <Text style={styles.text}>In progress</Text>
     
         </CardContent>
     </Card>
-    <ProgressBar progress={progress} width={310} height={25} color={'#A0CE4E'} style={styles.bar}/>
          </View>
       );
 
@@ -264,14 +286,6 @@ else if (completionCount === 1){
 
 
 }
-
-
-// const progressValue = (stepCount)=>{
-// let progress = stepCount * 0.011;
-// console.log("progressValue", progress);
-// console.log("stepCount in fuction", stepCount)
-// return progress;
-// }
 
 function round(n) {
   if (!n) {
@@ -284,21 +298,21 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   button: {
     marginTop: 15,
     marginBottom: 20,
-    width: 200,
-    height: 35,
+    width: 180,
+    height: 38,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     borderRadius: 100,
-    backgroundColor: 'orange',
+    backgroundColor: '#A0CE4E',
     marginLeft:50
-    // textDecorationColor:"BLACK"
+
 
   },
   text:{
@@ -313,8 +327,9 @@ marginBottom: 2
   },
   bar:{
   marginTop:10,
-  marginBottom: 25
-  }
+  marginBottom: 25,
+  marginLeft: 10
   
+  }
 
 });

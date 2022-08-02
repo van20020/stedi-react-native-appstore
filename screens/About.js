@@ -6,8 +6,7 @@ const About = (props) => {
     const url="https://www.stedibalance.com/";
     const youtubeUrl ="https://www.youtube.com/channel/UCDWI0nAwzZB8HB4569K0otg";
   return (
-    <SafeAreaView>
-    
+    <SafeAreaView style={{}}>
     <Text  style={styles.text} onPress={() => Linking.openURL(url)}>Learn about Stedi Balance</Text>
      <Text style={styles.text} onPress={() => Linking.openURL(youtubeUrl)}>Tutorials</Text>
  </SafeAreaView>

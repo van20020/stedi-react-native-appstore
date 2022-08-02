@@ -6,6 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import {FontAwesome5} from '@expo/vector-icons';
 import{ Ionicons} from '@expo/vector-icons';
 
+
+
 import Help from '../screens/Help';
 import Counter from '../screens/Counter';
 import About from '../screens/About';
@@ -21,15 +23,24 @@ const Stack = createNativeStackNavigator();
 const HomeStackScreen = () =>{
 
     return(
+    
+
      <Stack.Navigator
      screenOptions= {{
         headerStyle:{backgroundColor:'#A0CE4E'},
-        headerTintColor:'white'}}
+        headerTintColor:'white',
+      }}
      >
         <Stack.Screen name="Home" component={Home} options={{
-             headerTitleAlign: "center"}}>
+             headerTitleAlign: "center",
+             headerTitleStyle:{
+              fontWeight:'bold', 
+              fontSize:22
+             }
+         }}>
         </Stack.Screen>
      </Stack.Navigator>
+
     );
 }
 
@@ -102,6 +113,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 export default function Navigation (props) {
     return(
+  
         <NavigationContainer>
         <Tab.Navigator
         initialRouteName='Home'
@@ -111,12 +123,12 @@ export default function Navigation (props) {
             activeTintColor: 'Black',
 
         }}
-        // shifting='true'
+        
          barStyle={{ backgroundColor: 'white',
-        //  height:63,
+        
          }}>
              
-            <Tab.Screen  name="TabHome" 
+            <Tab.Screen  name="TabHome"
             component={HomeStackScreen} 
             options={{
                // tabBarColor:'pink',
@@ -172,5 +184,6 @@ export default function Navigation (props) {
 }
 
 const styles = StyleSheet.create({
+  
  
 });
