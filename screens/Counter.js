@@ -187,10 +187,9 @@ export default function Counter() {
 console.log(stepCount, "stepCount");
 const progressValue = (stepCount)=>{
   //0.50/30 is 0.01666666666666666666
-let progress =( stepCount * (0.50/30));
-  progress = progress + completionCount.current * 0.50;
+
 console.log("progressValue", progress);
-console.log("stepCount in fuction", stepCount)
+console.log("stepCount in fuction", stepCount);
 return progress;
 }
 
@@ -226,7 +225,7 @@ elevation: 4}}>
      </TouchableOpacity>
 
      </CardContent>
-     <ProgressBar progress={progress} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
+     <ProgressBar progress={(stepCount * 0.50/30) + (completionCount.current * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
 </Card>
       </View>
   );
