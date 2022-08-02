@@ -14,11 +14,17 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 
 export default function Counter() {
- const completionCount = useRef(0);
- const [counter, setCounter] = useState(180);
+ const [completionCount, setCompletionCount] = useState(0);
+ const [counter, setCounter] = useState(3); //(180 3 mins)
 
  const [currentScreen, setCurrentScreen] = useState('counter');
-
+useEffect(()=>{
+  if (currentScreen == 'counter'){
+    if (completionCount == 1){
+     setCurrentScreen('break');
+    }
+  }
+},[completionCount]);
 
  useEffect(() => {
   counter > 0 && setTimeout(() => {    
@@ -29,7 +35,6 @@ export default function Counter() {
         setStepCount(0);
       }
       setCounter(counter - 1);
-      console.log(progress);
     }
   }, 1000);
 }, [counter, currentScreen]);
@@ -97,7 +102,6 @@ export default function Counter() {
   const [stepCount, setStepCount] = useState(0);
   const previousHighPointTimeRef = useRef(0);//this is the most recent time we had a spike in acceleration, we initialize it to 0 meaning none
   const previousValue = useRef(0);//we process every 20 measurements, and this will be the 20th measurement from the previous time we processed data, start it at 0
-  const [progress, setProgress] = useState(0);
   //Android Docs: The data delay (or sampling rate) controls the interval at which sensor events are sent to your application via the onSensorChanged() callback method. The default data delay is suitable for monitoring typical screen orientation changes and uses a delay of 200,000 microseconds. You can specify other data delays, such as SENSOR_DELAY_GAME (20,000 microsecond delay), SENSOR_DELAY_UI (60,000 microsecond delay), or SENSOR_DELAY_FASTEST (0 microsecond delay).
   // https://developer.android.com/guide/topics/sensors/sensors_overview#java
 
@@ -149,17 +153,16 @@ export default function Counter() {
    if( steps.current.length >= 30) {
     console.log("_unsubscribe");
     setStepCount(0);
-    setProgress(0.5);
     _unsubscribe();
-    completionCount.current =  completionCount.current + 1;
-    console.log('completationCount:', completionCount.current);
-    if(completionCount.current == 1){
+    setCompletionCount(completionCount + 1);
+    console.log('completationCount:', completionCount);
+    if(completionCount == 1){
       setCurrentScreen('break');
     }
    }else{
     setStepCount(steps.current.length);
    }
-   setProgress(progressValue(steps.current.length));
+
     }
   }
 
@@ -185,14 +188,6 @@ export default function Counter() {
         
 //circula process bar
 console.log(stepCount, "stepCount");
-const progressValue = (stepCount)=>{
-  //0.50/30 is 0.01666666666666666666
-
-console.log("progressValue", progress);
-console.log("stepCount in fuction", stepCount);
-return progress;
-}
-
 
 
 
@@ -225,7 +220,7 @@ elevation: 4}}>
      </TouchableOpacity>
 
      </CardContent>
-     <ProgressBar progress={(stepCount * 0.50/30) + (completionCount.current * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
+     <ProgressBar progress={(stepCount * 0.50/30) + (completionCount * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
 </Card>
       </View>
   );
@@ -256,7 +251,7 @@ elevation: 4}}>
      style={{marginTop:50,  width: 200, height: 35, borderRadius: 100, backgroundColor: 'gray', alignItems: 'center', marginLeft:50, marginTop:120, padding:7}}>
      <Text>{subscription ? 'Stop' : 'GO'}</Text>
     </TouchableOpacity> */}
-    <ProgressBar progress={progress} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
+    <ProgressBar progress={(stepCount * 0.50/30) + (completionCount * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
     </CardContent>
 </Card>
 
