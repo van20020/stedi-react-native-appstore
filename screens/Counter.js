@@ -22,6 +22,7 @@ useEffect(()=>{
   if (currentScreen == 'counter'){
     if (completionCount == 1){
      setCurrentScreen('break');
+     console.log('completionCount:',completionCount)
     }
   }
 },[completionCount]);
@@ -156,9 +157,6 @@ useEffect(()=>{
     _unsubscribe();
     setCompletionCount(completionCount + 1);
     console.log('completationCount:', completionCount);
-    if(completionCount == 1){
-      setCurrentScreen('break');
-    }
    }else{
     setStepCount(steps.current.length);
    }

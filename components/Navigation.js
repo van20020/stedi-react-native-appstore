@@ -53,7 +53,12 @@ const counterStackScreen = () =>{
         headerTintColor:'white'}}
      >
         <Stack.Screen name="Counter" component={Counter} options={{
-             headerTitleAlign: "center"}}>
+             headerTitleAlign: "center",
+             headerTitleStyle:{
+               fontWeight:'bold', 
+               fontSize:22
+              }
+              }}>
         </Stack.Screen>
      </Stack.Navigator>
     );
@@ -67,7 +72,12 @@ const ProfileStackScreen = () =>{
         headerTintColor:'white'}}>
 
         <Stack.Screen name="Profile" component={Profile} options={{
-             headerTitleAlign: "center"}} >
+             headerTitleAlign: "center",
+             headerTitleStyle:{
+               fontWeight:'bold', 
+               fontSize:22
+              }
+             }} >
         </Stack.Screen>
      </Stack.Navigator>
     );
@@ -82,7 +92,12 @@ const AboutStackScreen = () =>{
         headerTintColor:'white'}}
      >
         <Stack.Screen name="About" component={About} options={{
-             headerTitleAlign: "center"}}>
+             headerTitleAlign: "center",
+             headerTitleStyle:{
+               fontWeight:'bold', 
+               fontSize:22
+              }
+             }}>
         </Stack.Screen>
      </Stack.Navigator>
     );
@@ -98,7 +113,12 @@ const helpStackScreen = () =>{
         headerTintColor:'white',  }}
      >
         <Stack.Screen name="Help" component={Help} options={{
-             headerTitleAlign: "center"}}
+             headerTitleAlign: "center",
+             headerTitleStyle:{
+               fontWeight:'bold', 
+               fontSize:22
+              }
+            }}
              >
         </Stack.Screen>
      </Stack.Navigator>
@@ -144,7 +164,7 @@ export default function Navigation (props) {
                 // tabBarColor:'pink',
                    tabBarLabel: 'Counter',
                  tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name='gauge' color={color} size={30} style={{ width: 30,  height: 30, marginTop: -3 }} />
+                  <MaterialCommunityIcons name='gauge' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
                   ),
                   }}
             />
