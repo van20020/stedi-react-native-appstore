@@ -6,18 +6,18 @@ import BarChart from 'react-native-bar-chart';
 
 
 
-const data = [
-  [70, 0],
-  [80,0],
-  [110, 0],
-  [100, 0],
-  [280, 0],
-  [80,0 ],
-  [110, 0]
+// const data = [
+//   [70, 0],
+//   [80,0],
+//   [110, 0],
+//   [100, 0],
+//   [280, 0],
+//   [80,0 ],
+//   [110, 0]
 
-];
+// ];
 // labels
-const horizontalData = ['S', 'M', 'T', 'W', 'T', 'F','S'];
+// const horizontalData = ['S', 'M', 'T', 'W', 'T', 'F','S'];
 
 const Profile = (props) => {
   const myCustomerShare = async() =>{
@@ -44,7 +44,7 @@ const Profile = (props) => {
     <Text style={{marginTop:10,marginBottom:10,fontWeight: 'bold'}}>Sarah Romero</Text>
 
     <Text style={{marginTop:20,marginBottom:2}}>This Week's progress</Text>
-<BarChart barColor='green' data={data} horizontalData={horizontalData} />
+{/* <BarChart barColor='green' data={data} horizontalData={horizontalData} /> */}
      <View style={{ marginTop: 50 }}>
       <Button onPress={myCustomerShare} title="Share" />
     </View>

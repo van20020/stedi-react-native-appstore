@@ -1,12 +1,9 @@
 import React, {useState}from 'react';
-import { StyleSheet, Text, SafeAreaView,  View, Dimensions} from 'react-native';
+import { StyleSheet, Text, SafeAreaView,  View, Dimensions, ScrollView} from 'react-native';
 import {FontAwesome5} from '@expo/vector-icons';
 import quotes from '../data/quote.json';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import { LineChart} from 'react-native-chart-kit';
-// import { LineChart } from 'react-native-line-chart'
-
-
 
 
 
@@ -29,21 +26,53 @@ const colorsToday = colors[day.getDay()];
   const quote = quotes[dayQuoteIndex].text;
   const author = quotes[dayQuoteIndex].author;
 
-  // line bar
  
   return (
+    <ScrollView>
     <SafeAreaView style={{alignItems:'center'}}>
       <View style={{width:'90%', backgroundColor:backgroundColorsToday, borderRadius:20, padding:20, marginTop:15 }}>
       <FontAwesome5 name="quote-left" style={{fontSize:30, marginBottom:1, color:colorsToday}}/>
       <Text style={{fontSize:16, lineHeight:26, color:'white' ,textAlign:'center',fontWeight:'400', marginBottom:10, letterSpacing:1.1, paddingHorizontal:27}}>{quote}</Text>
       <Text style={{textAlign:'right', fontStyle:'italic', fontSize:13, fontWeight:'300', color:colorsToday}}>― {author}</Text>
       </View> 
-      <LineChart
+      <Text style={{marginTop:12, fontSize:20, marginRight:230, color:'#B4B4B4'}}>Activity</Text>
+      <View style={{ flexDirection:'row', flexWrap: 'wrap', paddingLeft:15, paddingRight:15 }}> 
+      <Card style={{width:'50%',borderRadius:20, marginTop:10, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
+        <CardTitle   titleStyle={{fontSize:17}}
+        subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
+        subtitle={20}
+        title='Today'
+       />
+        <CardContent  >
+          <Text></Text>
+        </CardContent>
+      </Card>
+      <Card style={{ width:'50%', height:'135%', borderRadius:20, marginTop:10,shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
+        <CardTitle  titleStyle={{fontSize:17}}
+        subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
+        title='Weekly'
+        subtitle={20}
+       />
+        <CardContent  >
+          <Text></Text>
+        </CardContent>
+      </Card>
+      </View>
+      <View style={{ flexDirection:'row', paddingLeft:15, paddingRight:15 }}>
+      <Card style={{ width:'-10%',height:'70%', borderRadius:20, marginTop:85,shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
+        <CardTitle  
+         titleStyle={{fontSize:17}}
+         subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
+         subtitle={20}
+        title='Monthly'
+       />
+        <CardContent style={{paddingLeft:5}}> 
+        <LineChart 
     data={{
-      labels: ["January", "February", "March", "April", "May", "June"],
+      labels: ["J", "F", "M", "A", "M", "J","J","A","S","O","N","D"],
       datasets: [
         {
-          data: [
+          data: [ 
             Math.random() * 100,
             Math.random() * 100,
             Math.random() * 100,
@@ -55,7 +84,7 @@ const colorsToday = colors[day.getDay()];
       ]
     }}
     width={Dimensions.get("window").width} // from react-native
-    height={220}
+    height={120}
     yAxisLabel="$"
     yAxisSuffix="k"
     yAxisInterval={1} // optional, defaults to 1
@@ -78,46 +107,14 @@ const colorsToday = colors[day.getDay()];
     bezier
     style={{
       marginVertical: 8,
-      borderRadius: 16
+      borderRadius: 16,
     }}
-  />
-      <Text style={{marginTop:12, fontSize:20, marginRight:230}}>Activity</Text>
-      <View style={{ flexDirection:'row', flexWrap: 'wrap', paddingLeft:15, paddingRight:15 }}> 
-      <Card style={{width:'50%',borderRadius:20, marginTop:10, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
-        <CardTitle   titleStyle={{fontSize:17}}
-        subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
-        subtitle={20}
-        title='Today'
-       />
-        <CardContent  >
-          <Text></Text>
-        </CardContent>
-      </Card>
-      <Card style={{ width:'50%', height:'250%', borderRadius:20, marginTop:10,shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
-        <CardTitle  titleStyle={{fontSize:17}}
-        subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
-        title='Weekly'
-        subtitle={20}
-       />
-        <CardContent  >
-          <Text></Text>
-        </CardContent>
-      </Card>
-      </View>
-      <View style={{ flexDirection:'row', paddingLeft:15, paddingRight:15 }}>
-      <Card style={{ width:'-10%',height:'85%', borderRadius:20, marginTop:135,shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
-        <CardTitle  
-         titleStyle={{fontSize:17}}
-         subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
-         subtitle={20}
-        title='Monthly'
-       />
-        <CardContent> 
-       
+    />
         </CardContent>
       </Card>
       </View>
     </SafeAreaView>
+    </ScrollView>
   );
 };
 

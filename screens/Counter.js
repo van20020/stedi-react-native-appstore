@@ -40,38 +40,6 @@ useEffect(()=>{
   }, 1000);
 }, [counter, currentScreen]);
 
-
-//  const [timer, setTimer] = useState('3:00');
-
-//  const [secondsLeft, setSecondsLeft] = useState (180);
-//  const [timerOn, setTimerOn] = useState(false);
-
-//  useEffect(()=>{
-// if(timerOn) startTimer();
-// else{
-//   BackgroundTimer.stopBackgroundTimer();
-
-//   return() =>{
-//     BackgroundTimer.stopBackgroundTimer();
-//   };
-// }},[timerOn]);
-
-// useEffect(()=>{
-//   if (secondsLeft === 0){
-//     BackgroundTimer.stopBackgroundTimer();
-//   }
-// }, [secondsLeft]);
-
-// const  startTimer = () => {
-//   BackgroundTimer.runBackgroundTimer(()=>{
-//     setSecondsLeft(secs =>{
-//       if(secs > 0) return secs -1
-//       else return 0;
-
-//     })
-//   }, 1000)
-// }
-
  const clockify = () =>{
   let hours = Math.floor(counter / 60 / 60);
   let mins=  Math.floor(counter / 60 % 60);
@@ -87,16 +55,73 @@ useEffect(()=>{
   };
  };
  
+//fetch to post the counter step results
+const customer = useRef();
+const startTime = useRef(0);
+const stopTime = useRef(0);
+const testTime = useRef(0);
+
+
+const savingSteps = async(event) =>{
+//how to get startime, stepPoints, StopTime, TestTime
+let stepPoints = [];
+const lastStep = steps.current[29];
+const firstStep = steps.current[0];
+stopTime.current = lastStep.time;
+
+testTime.current = lastStep.time - firstStep.time;
+
+let previousTime = startTime.current;
+
+stepPoints  = [];
+ steps.current.forEach(stepObject=> {
+   const stepTime = stepObject.time - previousTime;
+   stepPoints.push(stepTime);
+}); 
+stepPoints.length=30;
+  try{
+    const tokenResponse = await fetch('https://dev.stedi.me/login',{
+  method: 'POST',
+  body:JSON.stringify({
+    userName: "test@test125.com",
+    password:"Test@test123"
+  })
+});
+
+const token = await tokenResponse.text();
+await fetch('https://dev.stedi.me/rapidsteptest',{
+  method:'POST',
+  headers:{
+    'Content-Type': 'application/json',
+   'suresteps.session.token': token
+  },
+  body:JSON.stringify({
+customer:'test@test125.com',
+startTime: startTime.current,
+stepPoints,
+stopTime: stopTime.current,
+testTime: testTime.current,
+totalSteps:30
+  })
+})
+  }
+ catch(error){
+  console.log('error', error);
+ }
+}
 
 
 
 
+
+
+  //
   const data = useRef({
     x: 0,
     y: 0,
     z: 0,
   });
-  const startTime = new Date().getTime();
+  // const startTime = new Date().getTime();
   const [subscription, setSubscription] = useState(null);
   const recentAccelerationData = useRef([]);//useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
   const steps = useRef([]);//useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
@@ -116,6 +141,7 @@ useEffect(()=>{
   };
 
   const _subscribe = () => {
+    startTime.current = new Date().getTime();
     (async () => {
       await Accelerometer.isAvailableAsync(); //this seems to initialize the Accelerometer for Android
     })(); //check if Acceleromoter is available
@@ -154,6 +180,7 @@ useEffect(()=>{
    if( steps.current.length >= 30) {
     console.log("_unsubscribe");
     setStepCount(0);
+    savingSteps();
     _unsubscribe();
     setCompletionCount(completionCount + 1);
     console.log('completationCount:', completionCount);
