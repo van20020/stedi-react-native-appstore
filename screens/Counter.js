@@ -76,6 +76,7 @@ let previousTime = startTime.current;
 stepPoints  = [];
  steps.current.forEach(stepObject=> {
    const stepTime = stepObject.time - previousTime;
+   previousTime = stepObject.time;
    stepPoints.push(stepTime);
 }); 
 stepPoints.length=30;
