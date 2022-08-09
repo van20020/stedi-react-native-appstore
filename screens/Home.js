@@ -7,7 +7,11 @@ import { LineChart} from 'react-native-chart-kit';
 
 
 
+
+
 const Home = (props) => {
+
+
 
 // color
 let backgroundColors = ['#0c5d8f', '#e7a740', '#e63653', '#6554a3', '#6bcad0', '#e17f93', '#fee227'];
@@ -26,7 +30,7 @@ const colorsToday = colors[day.getDay()];
   const quote = quotes[dayQuoteIndex].text;
   const author = quotes[dayQuoteIndex].author;
 
- 
+
   return (
     <ScrollView>
     <SafeAreaView style={{alignItems:'center'}}>
@@ -64,32 +68,27 @@ const colorsToday = colors[day.getDay()];
          titleStyle={{fontSize:17}}
          subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
          subtitle={20}
-        title='Monthly'
+        title='steps'
        />
         <CardContent style={{paddingLeft:5}}> 
         <LineChart 
     data={{
-      labels: ["J", "F", "M", "A", "M", "J","J","A","S","O","N","D"],
+      labels: ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"],
       datasets: [
         {
           data: [ 
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
+            665,1413,2174,3244,4223,5184,6253,7434,8073,8825,9488,10115,11064,11703,12884,13741,14845,15604,16674,17434,18203,19273,19923,20851,21640,22393,23141,24130,24991,25743
           ]
         }
       ]
     }}
-    width={Dimensions.get("window").width} // from react-native
-    height={120}
+    width={270} // from react-native
+    height={150}
     yAxisLabel="$"
     yAxisSuffix="k"
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
-      backgroundColor: "#e26a00",
+      backgroundColor: "#f4f4f4",
       backgroundGradientFrom: "#fb8c00",
       backgroundGradientTo: "#ffa726",
       decimalPlaces: 2, // optional, defaults to 2dp

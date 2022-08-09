@@ -48,13 +48,13 @@ const OnboardingScreen = ({setFirstLaunch}) =>{
             },
             {
                 backgroundColor: '#fff',
-                image: <Image style={{height: '65%', width: '90%', resizeMode:'contain', marginBottom:-100}} source={require('../image/yeah.png')} />,
+                image: <Image style={{height: '60%', width: '80%', resizeMode:'contain', marginBottom:-100}} source={require('../image/yeah.png')} />,
                 title: <Text style={{fontWeight:'bold', fontSize: 19, margin:15, textAlign:'center', color:'#A0CE4E', marginTop: -130 }}>Congratulations!</Text>,
                 subtitle: 'You have created a profile with STEDI Balance',
               },
               {
                 backgroundColor: '#fff',
-                image: <Image style={{height: '60%', width:'90%',  resizeMode:'contain', marginTop:-200}} source={require('../image/refer.png')} />,
+                image: <Image style={{height: '70%', width:'90%',  resizeMode:'contain', marginTop:-100}} source={require('../image/refer.png')} />,
                 title: <Text style={{fontWeight:'bold', textAlign:'center', fontSize: 19, margin:15, color:'#A0CE4E', marginTop:-160}}>Share STEDI Balance with you friends</Text>,
                 subtitle: 'Share and invite your family and friends your progress with us',
 

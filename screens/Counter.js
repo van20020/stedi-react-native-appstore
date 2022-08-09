@@ -12,17 +12,21 @@ import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
-
 export default function Counter() {
  const [completionCount, setCompletionCount] = useState(0);
  const [counter, setCounter] = useState(3); //(180 3 mins)
+ const [score, setScore] = useState(0);
 
  const [currentScreen, setCurrentScreen] = useState('counter');
 useEffect(()=>{
   if (currentScreen == 'counter'){
     if (completionCount == 1){
      setCurrentScreen('break');
-     console.log('completionCount:',completionCount)
+     console.log('completionCount:',completionCount);
+    }
+    else if(completionCount == 2){
+      getResults();
+      setCurrentScreen('result');
     }
   }
 },[completionCount]);
@@ -60,6 +64,7 @@ const customer = useRef();
 const startTime = useRef(0);
 const stopTime = useRef(0);
 const testTime = useRef(0);
+const token = useRef("");
 
 
 const savingSteps = async(event) =>{
@@ -83,20 +88,21 @@ stepPoints.length=30;
     const tokenResponse = await fetch('https://dev.stedi.me/login',{
   method: 'POST',
   body:JSON.stringify({
-    userName: "test@test125.com",
-    password:"Test@test123"
+    userName: "rom19010@byui.edu",
+    password:"Patricia2596@"
   })
 });
 
-const token = await tokenResponse.text();
+ token.current = await tokenResponse.text();
+console.log('token:' ,token.current);
 await fetch('https://dev.stedi.me/rapidsteptest',{
   method:'POST',
   headers:{
     'Content-Type': 'application/json',
-   'suresteps.session.token': token
+   'suresteps.session.token': token.current
   },
   body:JSON.stringify({
-customer:'test@test125.com',
+customer:'rom19010@byui.edu',
 startTime: startTime.current,
 stepPoints,
 stopTime: stopTime.current,
@@ -110,12 +116,59 @@ totalSteps:30
  }
 }
 
+//Get the results of the counter
+
+const getResults = async () =>{
+
+try{
+  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/rom19010@byui.edu',{
+  method:'GET',
+  headers:{
+    'Content-Type': 'application/json',
+   'suresteps.session.token': token.current
+  }
+})
+const scoreObject = await scoreResponse.json();
+setScore(scoreObject.score);
+console.log(score);
+}catch(error){
+  console.log('error', error);
+ }
+}
+
+
+//outcome of the saving data
+const outcome = () =>{
+if (score >= 10){
+return("Excellent improvement")
+} else if (score > 0 && score <10){
+  return('Some improvement');
+}
+else if( score <0 && score > -10){
+return('Noticeable deterioration');
+}
+else if (score <= -10){
+return("severe deterioration")
+}
+}
+//message od the saving data
+
+const messageOutcome = () =>{
+  if (score >= 10){
+  return("maintain your progress through regular exercise.*")
+  } else if (score > 0 && score <10){
+    return('increase your progress through regular exercise.*');
+  }
+  else if( score <0 && score > -10){
+  return('make progress through regular exercise.*');
+  }
+  else if (score <= -10){
+  return("make a comeback through regular exercise.*")
+  }
+  }
 
 
 
-
-
-  //
   const data = useRef({
     x: 0,
     y: 0,
@@ -268,7 +321,7 @@ elevation: 4}}>
     <CardTitle style={{marginLeft: 10, marginTop:40}}
     subtitle='Take a break for 3 mins'
   />
-  <Text style={{fontSize:50, fontWeight:'bold', marginLeft:60, marginBottom:100}}>{clockify().displayHours}:{clockify().displayMins}:{clockify().displaySeconds}</Text>
+  <Text style={{fontSize:50, fontWeight:'bold', marginLeft:60, marginBottom:25}}>{clockify().displayHours}:{clockify().displayMins}:{clockify().displaySeconds}</Text>
 <CardContent>
  {/* <TouchableOpacity disabled={true} 
      onPress={ ()=>setTimerOn(current => !current,  subscription ? _unsubscribe : _subscribe )}
@@ -276,7 +329,7 @@ elevation: 4}}>
      style={{marginTop:50,  width: 200, height: 35, borderRadius: 100, backgroundColor: 'gray', alignItems: 'center', marginLeft:50, marginTop:120, padding:7}}>
      <Text>{subscription ? 'Stop' : 'GO'}</Text>
     </TouchableOpacity> */}
-    <ProgressBar progress={(stepCount * 0.50/30) + (completionCount * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar}/>
+    <ProgressBar progress={(stepCount * 0.50/30) + (completionCount * 0.50)} width={300} height={25} color={'#A0CE4E'} style={styles.bar2}/>
     </CardContent>
 </Card>
 
@@ -284,19 +337,40 @@ elevation: 4}}>
 
   );
 
-  } else if(currentScreen > 'result'){
+  } else if(currentScreen == 'result'){
       return(
         <View style={styles.screen}> 
-        <Card style={{backgroundColor:'#D9F2AD', borderRadius: 10, marginTop: 20, width: 320 }}>
-        <CardTitle 
-      title='Outcomes'
-       
-      />
+        <Card style={{backgroundColor:'white',  borderRadius: 10, marginTop: 20, marginBottom:20 ,width: 320, shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 2,
+},
+shadowOpacity: 0.23,
+shadowRadius: 2.62,
 
-    <CardContent>
-     <Text style={styles.text}>In progress</Text>
-    
-        </CardContent>
+elevation: 4 }}>
+
+    <CardContent  style={{marginBottom:20}}>
+    <Speedometer
+   value={score} 
+   max={100}
+   min={-100}
+>
+  <Background color='#A0CE4E' />
+  <Arc/>
+  <Needle circleColor='#A0CE4E'/>
+  <Progress color='#A0CE4E'/>
+  <Marks/>
+  <Indicator/>
+</Speedometer>
+
+<CardTitle  titleStyle={{fontSize:20, textAlign:'center', fontWeight:'bold', marginTop:10}}
+ subtitleStyle={{fontSize:18, color:'black', textAlign:'center'}}
+title={outcome()}
+subtitle={messageOutcome()}
+      />
+      <Text  style={{textAlign:'center', color: '#0000EE'}} onPress={() => Linking.openURL(url)}>More info</Text>
+     </CardContent>
     </Card>
          </View>
       );
@@ -323,7 +397,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 15,
     marginBottom: 20,
-    width: 180,
+    width: 170,
     height: 38,
     justifyContent: 'center',
     alignItems: 'center',
@@ -349,6 +423,10 @@ marginBottom: 2
   marginBottom: 25,
   marginLeft: 10
   
-  }
+  },
+  bar2:{
+    marginLeft: -5
+    
+    }
 
 });
