@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView , Share, ScrollView, Button} from 'react-native';
+import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import BarChart from 'react-native-bar-chart';
 // import Share from 'react-native-share';
 
@@ -35,10 +36,16 @@ const Profile = (props) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ScrollView style={styles.container}
-      contentContainerStyle={{justifyContent:'center', alignItems:'center'}}
-      showsVerticalScrollIndicator={false}
-      >
+         <Card style={{backgroundColor:'white', borderRadius: 10, margin:20 ,width: 320, shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 2,
+},
+shadowOpacity: 0.23,
+shadowRadius: 2.62,
+
+elevation: 4}}>
+     <CardContent>
      <Image style={{height: 100, width:100, borderRadius: 75}}
       source={require('../image/me.jpg')} />
     <Text style={{marginTop:10,marginBottom:10,fontWeight: 'bold'}}>Sarah Romero</Text>
@@ -48,7 +55,8 @@ const Profile = (props) => {
      <View style={{ marginTop: 50 }}>
       <Button onPress={myCustomerShare} title="Share" />
     </View>
-    </ScrollView>
+    </CardContent>
+    </Card>
  </SafeAreaView>
   );
 };

@@ -4,7 +4,7 @@ import { Accelerometer } from 'expo-sensors';
 import getSpikesFromAccelerometer from '../utils/StepCalculator';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { Line, G } from 'react-native-svg'
-import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,
+import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,DangerPath
 } from 'react-native-cool-speedometer';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 import exerciseImg from '../image/exercise2.png';
@@ -130,8 +130,8 @@ try{
   }
 })
 const scoreObject = await scoreResponse.json();
+console.log("score:",scoreObject.score);
 setScore(scoreObject.score);
-console.log(score);
 }catch(error){
   console.log('error', error);
  }
@@ -167,7 +167,13 @@ const messageOutcome = () =>{
   return("make a comeback through regular exercise.*")
   }
   }
-
+//close button
+const close = () => {
+setCompletionCount(0);
+setCurrentScreen('counter');
+setStepCount(0);
+setCounter(3);
+}
 
 
   const data = useRef({
@@ -351,16 +357,15 @@ shadowRadius: 2.62,
 
 elevation: 4 }}>
 
-    <CardContent  style={{marginBottom:20}}>
-    <Speedometer
+    <CardContent style={{marginTop:40, marginLeft:20}}>
+    <Speedometer 
    value={score} 
    max={100}
-   min={-100}
->
+   min={-100} >
   <Background color='#A0CE4E' />
   <Arc/>
   <Needle circleColor='#A0CE4E'/>
-  <Progress color='#A0CE4E'/>
+  <Progress color='#A0CE4E' arcWidth={6} />
   <Marks/>
   <Indicator/>
 </Speedometer>
@@ -370,6 +375,11 @@ elevation: 4 }}>
 title={outcome()}
 subtitle={messageOutcome()}
       />
+      <TouchableOpacity
+     onPress={close}
+      style={styles.button2}>
+        <Text>close</Text>
+      </TouchableOpacity>
       <Text  style={{textAlign:'center', color: '#0000EE'}} onPress={() => Linking.openURL(url)}>More info</Text>
      </CardContent>
     </Card>
@@ -406,8 +416,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: '#A0CE4E',
     marginLeft:50
-
-
   },
   text:{
 textAlign: 'center',
@@ -428,6 +436,18 @@ marginBottom: 2
   bar2:{
     marginLeft: -5
     
-    }
+    },
+    button2: {
+      marginTop:10,
+      marginBottom: 20,
+      width: 170,
+      height: 38,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 10,
+      borderRadius: 100,
+      backgroundColor: '#A0CE4E',
+      marginLeft:50
+    },
 
 });

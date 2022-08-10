@@ -1,5 +1,5 @@
-import React, {useState}from 'react';
-import { StyleSheet, Text, SafeAreaView,  View, Dimensions, ScrollView} from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { StyleSheet, Text, SafeAreaView,  View, ScrollView, Linking} from 'react-native';
 import {FontAwesome5} from '@expo/vector-icons';
 import quotes from '../data/quote.json';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
@@ -10,8 +10,42 @@ import { LineChart} from 'react-native-chart-kit';
 
 
 const Home = (props) => {
+  const token = useRef("");
+  const [score, setScore] = useState(0);
+  useEffect(()=>{ todayScore();},[]);
+//today score
 
+const todayScore = async() =>{
+  let scoreObject ={};
+  try{
+    const tokenResponse = await fetch('https://dev.stedi.me/login',{
+  method: 'POST',
+  body:JSON.stringify({
+    userName: "rom19010@byui.edu",
+    password:"Patricia2596@"
+  })
+});
 
+ token.current = await tokenResponse.text();
+    const scoreResponse = await fetch('https://dev.stedi.me/riskscore/rom19010@byui.edu',{
+    method:'GET',
+    headers:{
+      'Content-Type': 'application/json',
+     'suresteps.session.token': token.current
+    }
+  })
+  console.log('token:', token.current);
+  scoreObject = await scoreResponse.json();
+  setScore(scoreObject.score);
+  console.log(scoreObject.score);
+  }catch(error){
+    console.log('error', error);
+   }
+}
+
+//Weekly average time
+
+//monthly average time
 
 // color
 let backgroundColors = ['#0c5d8f', '#e7a740', '#e63653', '#6554a3', '#6bcad0', '#e17f93', '#fee227'];
@@ -44,11 +78,10 @@ const colorsToday = colors[day.getDay()];
       <Card style={{width:'50%',borderRadius:20, marginTop:10, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
         <CardTitle   titleStyle={{fontSize:17}}
         subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
-        subtitle={20}
+        subtitle={score}
         title='Today'
        />
-        <CardContent  >
-          <Text></Text>
+        <CardContent>
         </CardContent>
       </Card>
       <Card style={{ width:'50%', height:'135%', borderRadius:20, marginTop:10,shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
@@ -57,8 +90,7 @@ const colorsToday = colors[day.getDay()];
         title='Weekly'
         subtitle={20}
        />
-        <CardContent  >
-          <Text></Text>
+        <CardContent>
         </CardContent>
       </Card>
       </View>
@@ -68,7 +100,9 @@ const colorsToday = colors[day.getDay()];
          titleStyle={{fontSize:17}}
          subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
          subtitle={20}
-        title='steps'
+        title='Monthly'
+
+        //average score
        />
         <CardContent style={{paddingLeft:5}}> 
         <LineChart 
@@ -76,22 +110,19 @@ const colorsToday = colors[day.getDay()];
       labels: ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"],
       datasets: [
         {
-          data: [ 
-            665,1413,2174,3244,4223,5184,6253,7434,8073,8825,9488,10115,11064,11703,12884,13741,14845,15604,16674,17434,18203,19273,19923,20851,21640,22393,23141,24130,24991,25743
-          ]
+          data:[3615, 1165, 756, 309, 200, 172, 166, 171, 166, 172, 171, 186, 172, 180, 165, 179, 192, 172, 178, 173]
         }
       ]
     }}
     width={270} // from react-native
     height={150}
-    yAxisLabel="$"
-    yAxisSuffix="k"
+    yAxisSuffix="ms"
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
       backgroundColor: "#f4f4f4",
       backgroundGradientFrom: "#fb8c00",
       backgroundGradientTo: "#ffa726",
-      decimalPlaces: 2, // optional, defaults to 2dp
+      decimalPlaces: 0, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       style: {
