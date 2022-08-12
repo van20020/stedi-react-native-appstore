@@ -10,12 +10,12 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Ionicons} from 'react-native-vector-icons';
+// import { Ionicons} from 'react-native-vector-icons';
 // import { Button } from 'react-native-elements';
 // import { IconButton } from 'react-native-paper';
 
 
-export default function Counter() {
+export default function Counter(props) {
  const [completionCount, setCompletionCount] = useState(0);
  const [counter, setCounter] = useState(3); //(180 3 mins)
  const [score, setScore] = useState(0);
@@ -135,6 +135,7 @@ try{
 const scoreObject = await scoreResponse.json();
 console.log("score:",scoreObject.score);
 setScore(scoreObject.score);
+props.setHomeTodayScore(scoreObject.score);
 }catch(error){
   console.log('error', error);
  }
@@ -372,11 +373,11 @@ shadowOpacity: 0.23,
 shadowRadius: 2.62,
 
 elevation: 4 }}>
- <TouchableOpacity onPress={shareProgress}>
- <Ionicons name='share-social' color='#B4B4B4' size={20} style={{ marginTop:20,  margingBottom:10,paddingLeft:280, position: 'absolute'}}/>
+ <TouchableOpacity onPress={shareProgress} style={{zIndex: 1 }}>
+ <FontAwesome5 name='share-alt' color='#B4B4B4' size={20} style={{ marginTop:20,paddingLeft:280, position: 'absolute' }}/>
  </TouchableOpacity>
     <CardContent style={{marginTop:60, marginLeft:20}}>
-    <Speedometer width ={200} 
+    <Speedometer width ={250} 
    value={score} 
    max={100}
    min={-100} >
@@ -392,7 +393,7 @@ elevation: 4 }}>
  subtitleStyle={{fontSize:18, color:'black', textAlign:'center'}}
 title={outcome()}
 subtitle={messageOutcome()}
-      />
+      /> 
       <TouchableOpacity
      onPress={close}
       style={styles.button2}>

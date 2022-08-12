@@ -6,12 +6,13 @@ import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import { LineChart} from 'react-native-chart-kit';
 
 
+
 const Home = (props) => {
   const token = useRef("");
   const [score, setScore] = useState(0);
   useEffect(()=>{ todayScore();},[]);
-//today score
 
+//today score
 const todayScore = async() =>{
   let scoreObject ={};
   try{
@@ -74,10 +75,10 @@ const colorsToday = colors[day.getDay()];
       <View style={{ flexDirection:'row', flexWrap: 'wrap', paddingLeft:15, paddingRight:15 }}> 
       <Card style={{width:'50%',borderRadius:20, marginTop:10, shadowColor: "#000",shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.23, shadowRadius: 2.62, elevation: 4}}>
         <CardTitle   titleStyle={{fontSize:17}}
-        subtitleStyle={{fontSize:35,fontWeight:'bold', color:'black'}}
-        subtitle={score}
         title='Today'
        />
+       <Text style={{fontSize:35,fontWeight:'bold', color:'black'}}>{score}</Text>
+        <FontAwesome5 name="arrow-down"/>
         <CardContent>
         </CardContent>
       </Card>

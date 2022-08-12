@@ -20,7 +20,7 @@ import Profile from '../screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
-const HomeStackScreen = () =>{
+const HomeStackScreen = (props) =>{
 
     return(
     
@@ -45,7 +45,7 @@ const HomeStackScreen = () =>{
 }
 
 
-const counterStackScreen = () =>{
+const CounterStackScreen = () =>{
     return(
      <Stack.Navigator
      screenOptions= {{
@@ -149,17 +149,20 @@ export default function Navigation (props) {
          }}>
              
             <Tab.Screen  name="TabHome"
-            component={HomeStackScreen} 
+            // component={HomeStackScreen} 
+            children={()=><HomeStackScreen homeTodayScore={props.homeTodayScore}/>}
             options={{
                // tabBarColor:'pink',
                   tabBarLabel: 'Home',
+                  
                 tabBarIcon: ({ color }) => (
                  <Ionicons name='home-sharp' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
                  ),
                  }}
             />
             <Tab.Screen name="TabCounter" 
-            component={counterStackScreen}
+            // component={counterStackScreen}
+            children={()=><CounterStackScreen setHomeTodayScore={props.setHomeTodayScore}/>}
             options={{
                 // tabBarColor:'pink',
                    tabBarLabel: 'Counter',
