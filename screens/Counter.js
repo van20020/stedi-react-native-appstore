@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Share} from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import getSpikesFromAccelerometer from '../utils/StepCalculator';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { Line, G } from 'react-native-svg'
 import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,DangerPath
 } from 'react-native-cool-speedometer';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button } from 'react-native-material-cards'
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons} from 'react-native-vector-icons';
+// import { Button } from 'react-native-elements';
+// import { IconButton } from 'react-native-paper';
 
 
 export default function Counter() {
@@ -175,7 +178,20 @@ setStepCount(0);
 setCounter(3);
 }
 
+//share 
 
+const shareProgress = async() =>{
+  const shareOptions = {
+    message: 'This is a test'
+  }
+  try{
+    const shareResponse = await Share.share(shareOptions)
+    console.log(shareResponse);
+    }
+    catch(error){
+console.log('Error', error)
+    }
+  }
   const data = useRef({
     x: 0,
     y: 0,
@@ -209,7 +225,7 @@ setCounter(3);
     recentAccelerationData.current=[];
     steps.current=[];
     setSubscription( //we set this state variable so later we can use it to unsubscribe
-      Accelerometer.addListener((accelerometerData) => {
+      Accelerometer.addListener(async(accelerometerData) => {
         data.current=accelerometerData;
         const { x, y, z } = data.current;
         //console.log("x: "+x+" y:"+y+" z:"+z);
@@ -219,13 +235,13 @@ setCounter(3);
         recentAccelerationData.current.push({time: new Date().getTime(), value: total_amount_xyz});
         //  console.log("recentAccelerationData.length", recentAccelerationData.current.length);
         if (recentAccelerationData.current.length>20){
-          tallyLatestSteps();
+        await tallyLatestSteps();
         } 
       })
     );
   };
 
-  const tallyLatestSteps= ()=>{
+  const tallyLatestSteps = async ()=>{
     // console.log("tallyrecentAccelerationData.length", recentAccelerationData.current.length);
     if (recentAccelerationData.current.length > 0){
     // console.log("RecentAccelerationData: "+JSON.stringify(recentAccelerationData.current));
@@ -240,7 +256,7 @@ setCounter(3);
    if( steps.current.length >= 30) {
     console.log("_unsubscribe");
     setStepCount(0);
-    savingSteps();
+   await savingSteps();
     _unsubscribe();
     setCompletionCount(completionCount + 1);
     console.log('completationCount:', completionCount);
@@ -298,7 +314,7 @@ elevation: 4}}>
 <CardContent>
   <Text style={styles.text}>Step Quickly</Text>
   <TouchableOpacity
-      onPress={subscription ? _unsubscribe : _subscribe}
+     onPress={ subscription ? _unsubscribe : _subscribe}
       style={styles.button}
     >
       <Text>{subscription ? 'Stop' : 'GO'}</Text>
@@ -356,16 +372,18 @@ shadowOpacity: 0.23,
 shadowRadius: 2.62,
 
 elevation: 4 }}>
-
-    <CardContent style={{marginTop:40, marginLeft:20}}>
-    <Speedometer 
+ <TouchableOpacity onPress={shareProgress}>
+ <Ionicons name='share-social' color='#B4B4B4' size={20} style={{ marginTop:20,  margingBottom:10,paddingLeft:280, position: 'absolute'}}/>
+ </TouchableOpacity>
+    <CardContent style={{marginTop:60, marginLeft:20}}>
+    <Speedometer width ={200} 
    value={score} 
    max={100}
    min={-100} >
   <Background color='#A0CE4E' />
   <Arc/>
   <Needle circleColor='#A0CE4E'/>
-  <Progress color='#A0CE4E' arcWidth={6} />
+  <Progress color='#A0CE4E' />
   <Marks/>
   <Indicator/>
 </Speedometer>

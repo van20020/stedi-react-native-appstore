@@ -6,9 +6,6 @@ import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import { LineChart} from 'react-native-chart-kit';
 
 
-
-
-
 const Home = (props) => {
   const token = useRef("");
   const [score, setScore] = useState(0);
