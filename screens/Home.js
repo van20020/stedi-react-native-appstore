@@ -4,7 +4,7 @@ import {FontAwesome5} from '@expo/vector-icons';
 import quotes from '../data/quote.json';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import { LineChart} from 'react-native-chart-kit';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Home = (props) => {
@@ -16,17 +16,13 @@ const Home = (props) => {
 const todayScore = async() =>{
   let scoreObject ={};
   try{
-//     const tokenResponse = await fetch('https://dev.stedi.me/login',{
-//   method: 'POST',
-//   body:JSON.stringify({
-//     userName: "rom19010@byui.edu",
-//     password:"Patricia2596@"
-//   })
-// });
-const sessionToken = await AsyncStorage.getItem('sessionToken');
 
- token.current = await tokenResponse.text();
-    const scoreResponse = await fetch('https://dev.stedi.me/riskscore/rom19010@byui.edu',{
+const sessionToken = await AsyncStorage.getItem('sessionToken');// get storage from device
+console.log('sessionToken in Home',sessionToken);
+const userName = await AsyncStorage.getItem('userName');
+console.log('userName',userName);
+ token.current = sessionToken;
+    const scoreResponse = await fetch('https://dev.stedi.me/riskscore/'+userName,{
     method:'GET',
     headers:{
       'Content-Type': 'application/json',
@@ -34,6 +30,8 @@ const sessionToken = await AsyncStorage.getItem('sessionToken');
     }
   })
   console.log('token:', token.current);
+  const scoreText = await scoreResponse.text();
+  console.log('scoreText',scoreText);
   scoreObject = await scoreResponse.json();
   setScore(scoreObject.score);
   console.log(scoreObject.score);

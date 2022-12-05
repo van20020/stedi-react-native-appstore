@@ -10,6 +10,7 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Ionicons} from 'react-native-vector-icons';
 // import { Button } from 'react-native-elements';
 // import { IconButton } from 'react-native-paper';
@@ -68,6 +69,7 @@ const startTime = useRef(0);
 const stopTime = useRef(0);
 const testTime = useRef(0);
 const token = useRef("");
+const userName = useRef("");
 
 
 const savingSteps = async(event) =>{
@@ -87,17 +89,11 @@ stepPoints  = [];
    previousTime = stepObject.time;
    stepPoints.push(stepTime);
 }); 
-stepPoints.length=30;
-  try{
-    const tokenResponse = await fetch('https://dev.stedi.me/login',{
-  method: 'POST',
-  body:JSON.stringify({
-    userName: "rom19010@byui.edu",
-    password:"Patricia2596@"
-  })
-});
 
- token.current = await tokenResponse.text();
+  try{
+
+ token.current = await AsyncStorage.getItem('sessionToken');
+ userName.current =await AsyncStorage.getItem('userName');
 console.log('token:' ,token.current);
 await fetch('https://dev.stedi.me/rapidsteptest',{
   method:'POST',
@@ -106,7 +102,7 @@ await fetch('https://dev.stedi.me/rapidsteptest',{
    'suresteps.session.token': token.current
   },
   body:JSON.stringify({
-customer:'rom19010@byui.edu',
+customer:userName.current,
 startTime: startTime.current,
 stepPoints,
 stopTime: stopTime.current,
@@ -116,7 +112,7 @@ totalSteps:30
 })
   }
  catch(error){
-  console.log('error', error);
+  console.log('save error', error);
  }
 }
 
@@ -125,7 +121,9 @@ totalSteps:30
 const getResults = async () =>{
 
 try{
-  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/rom19010@byui.edu',{
+  console.log('UserName:'+userName.current);
+  console.log('Token before calling score:'+token.current);
+  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/'+userName.current,{
   method:'GET',
   headers:{
     'Content-Type': 'application/json',
@@ -135,9 +133,9 @@ try{
 const scoreObject = await scoreResponse.json();
 console.log("score:",scoreObject.score);
 setScore(scoreObject.score);
-props.setHomeTodayScore(scoreObject.score);
+
 }catch(error){
-  console.log('error', error);
+  console.log('score error', error);
  }
 }
 
