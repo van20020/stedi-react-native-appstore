@@ -36,6 +36,7 @@ const Profile = (props) => {
       const userName = await AsyncStorage.getItem('userName');
       console.log('userName',userName);
       setUserName(userName);
+      // await AsyncStorage.removeItem('profilePhoto');
       const profilePhoto = await AsyncStorage.getItem('profilePhoto');
       setProfilePhoto(profilePhoto);
 
@@ -92,7 +93,7 @@ elevation: 4}}>
      <CardContent>
      <Image style={{height: 100, width:100, borderRadius: 75}}
       source={{uri:profilePhoto}}  />
-    <Text style={{marginTop:10,marginBottom:10,fontWeight: 'bold'}}>Sarah Romero</Text>
+    <Text style={{marginTop:10,marginBottom:10,fontWeight: 'bold'}}>{userName}</Text>
 
     <Text style={{marginTop:20,marginBottom:2}}>This Week's progress</Text>
 {/* <BarChart barColor='green' data={data} horizontalData={horizontalData} /> */}
