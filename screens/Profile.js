@@ -38,6 +38,7 @@ const Profile = (props) => {
       setUserName(userName);
       // await AsyncStorage.removeItem('profilePhoto');
       const profilePhoto = await AsyncStorage.getItem('profilePhoto');
+      
       setProfilePhoto(profilePhoto);
 
     }
