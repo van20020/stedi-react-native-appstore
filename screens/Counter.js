@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, Share} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Share, Linking} from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import getSpikesFromAccelerometer from '../utils/StepCalculator';
 import CircularProgress from 'react-native-circular-progress-indicator';
