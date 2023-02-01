@@ -143,7 +143,7 @@ return(
      },
      input: {
        height: 40,
-       marginTop: 12,
+       marginTop: 100,
        borderWidth: 1,
        padding: 10,
      },
