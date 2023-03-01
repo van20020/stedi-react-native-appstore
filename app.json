@@ -9,6 +9,9 @@
     },
     "ios": {
       "bundleIdentifier": "com.scmurdock.stediapp"
+    },
+    "android": {
+      "package": "com.scmurdock.stediapp"
     }
   }
 }

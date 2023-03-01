@@ -48,12 +48,15 @@ const getSpikesFromAccelerometer = ({recentAccelerationData, threshold, previous
 
         if (accelerationDatum.value > previousValue && previousValue!=0){
             goingUp = true;
+            console.log('X: '+accelerationDatum.x);
             console.log("Going UP: "+goingUp );
             console.log("Previous Value: "+previousValue);
             console.log("Value: "+accelerationDatum.value);
         } else {
+            console.log('X: '+accelerationDatum.x);
             if (goingUp===true && (accelerationDatum.time-previousHighPointTime > 600 || previousHighPointTime==0) && previousValue > threshold){
                 console.log("Found spike!");
+                console.log('X: '+accelerationDatum.x);
                 overThresholdSpikes.push(accelerationDatum);
                 previousHighPointTime = accelerationDatum.time;
             }

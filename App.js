@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity,TextInput, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,TextInput, Button, Alert,Linking } from 'react-native';
 import  Navigation from './components/Navigation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnboardingScreen from './screens/OnboardingScreen';
@@ -69,7 +69,7 @@ return(
           onPress={async ()=>{
             console.log(phoneNumber+' Button was pressed')
 
-            await fetch(
+            const sendTextResponse=await fetch(
               'https://dev.stedi.me/twofactorlogin/'+phoneNumber,
               {
                 method:'POST',
@@ -78,7 +78,12 @@ return(
                }
               }
             )
-            setLoggedInState(loggedInStates.LOGGING_IN);
+            const sendTextResponseData = await sendTextResponse.text();
+            if(sendTextResponse.status!=200){//invalid phone number, send them to the signup page
+              await Linking.openURL('https://dev.stedi.me/createcustomer.html');
+            } else{
+              setLoggedInState(loggedInStates.LOGGING_IN);
+            }
           }}
         />      
       </View>

@@ -18,7 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Counter(props) {
  const [completionCount, setCompletionCount] = useState(0);
- const [counter, setCounter] = useState(3); //(180 3 mins)
+ const [counter, setCounter] = useState(180); //(180 3 mins)
  const [score, setScore] = useState(0);
 
  const [currentScreen, setCurrentScreen] = useState('counter');
@@ -240,7 +240,7 @@ console.log('Error', error)
         let total_amount_xyz = Math.sqrt(x * x+ y*y + z*z) * 9.81;
         // console.log(new Date().getTime()+","+total_amount_xyz);
         // console.log("Steps: "+steps.current.length);
-        recentAccelerationData.current.push({time: new Date().getTime(), value: total_amount_xyz});
+        recentAccelerationData.current.push({time: new Date().getTime(), value: total_amount_xyz,x});
         //  console.log("recentAccelerationData.length", recentAccelerationData.current.length);
         if (recentAccelerationData.current.length>20){
         await tallyLatestSteps();
