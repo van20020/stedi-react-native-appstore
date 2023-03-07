@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Share, Linking} from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import getSpikesFromAccelerometer from '../utils/StepCalculator';
-import CircularProgress from 'react-native-circular-progress-indicator';
-import { Line, G } from 'react-native-svg'
 import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,DangerPath
 } from 'react-native-cool-speedometer';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button } from 'react-native-material-cards'
@@ -11,6 +9,8 @@ import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PopupModal from '../components/PopupModal';
+import ManuanllyCounter from '../components/ManuallyCounter';
 // import { Ionicons} from 'react-native-vector-icons';
 // import { Button } from 'react-native-elements';
 // import { IconButton } from 'react-native-paper';
@@ -20,8 +20,8 @@ export default function Counter(props) {
  const [completionCount, setCompletionCount] = useState(0);
  const [counter, setCounter] = useState(180); //(180 3 mins)
  const [score, setScore] = useState(0);
-
  const [currentScreen, setCurrentScreen] = useState('counter');
+
 
  useEffect(()=>{//gets username and token from storage
   const getUserName = async ()=>{
@@ -225,42 +225,16 @@ console.log('Error', error)
   };
 
   const _subscribe = () => {
+    setSubscription(true)
     startTime.current = new Date().getTime();
-    (async () => {
-      await Accelerometer.isAvailableAsync(); //this seems to initialize the Accelerometer for Android
-    })(); //check if Acceleromoter is available
     setStepCount(0);
     recentAccelerationData.current=[];
     steps.current=[];
-    setSubscription( //we set this state variable so later we can use it to unsubscribe
-      Accelerometer.addListener(async(accelerometerData) => {
-        data.current=accelerometerData;
-        const { x, y, z } = data.current;
-        //console.log("x: "+x+" y:"+y+" z:"+z);
-        let total_amount_xyz = Math.sqrt(x * x+ y*y + z*z) * 9.81;
-        // console.log(new Date().getTime()+","+total_amount_xyz);
-        // console.log("Steps: "+steps.current.length);
-        recentAccelerationData.current.push({time: new Date().getTime(), value: total_amount_xyz,x});
-        //  console.log("recentAccelerationData.length", recentAccelerationData.current.length);
-        if (recentAccelerationData.current.length>20){
-        await tallyLatestSteps();
-        } 
-      })
-    );
   };
 
   const tallyLatestSteps = async ()=>{
-    // console.log("tallyrecentAccelerationData.length", recentAccelerationData.current.length);
-    if (recentAccelerationData.current.length > 0){
-    // console.log("RecentAccelerationData: "+JSON.stringify(recentAccelerationData.current));
-    const {spikes, previousHighPointTime} = getSpikesFromAccelerometer({recentAccelerationData: recentAccelerationData.current, threshold: 11, previousValue: previousValue.current, previousHighPointTime: previousHighPointTimeRef.current});
-    previousValue.current = recentAccelerationData.current[recentAccelerationData.current.length-1].value;//store this for when we need to remember the last value
-    previousHighPointTimeRef.current = previousHighPointTime;
-    // console.log("Spikes: "+JSON.stringify(spikes)+ " with length: "+spikes.length);
-    // console.log("Steps before: "+steps.current.length);
-    steps.current=steps.current.concat(spikes);
+    steps.current=steps.current.concat([{time: new Date().getTime()}]);
     // console.log("Steps after: "+steps.current.length);
-    recentAccelerationData.current=[];
    if( steps.current.length >= 30) {
     console.log("_unsubscribe");
     setStepCount(0);
@@ -273,12 +247,12 @@ console.log('Error', error)
    }
 
     }
-  }
+  
 
 
   const _unsubscribe = () => {
     // tallyLatestSteps();//count the last remaining steps before unsubscribing
-    subscription && subscription.remove();
+    subscription && setSubscription(false);
     Accelerometer.removeAllListeners();
     console.log("_")
     setSubscription(null);
@@ -313,11 +287,12 @@ shadowOpacity: 0.23,
 shadowRadius: 2.62,
 
 elevation: 4}}>
-     <CardTitle 
+     <CardTitle style={styles.titleText}
    subtitle={'Steps'}
    title={stepCount}
    />
-   <FontAwesome5  name='redo' color='red' size={20} style={{ alignSelf: 'flex-end', marginTop:30, paddingRight:15, position: 'absolute'}} />
+   <ManuanllyCounter visible={subscription} tallyLatestSteps={tallyLatestSteps}/>
+   {/* <FontAwesome5  name='redo' color='red' size={20} style={{ alignSelf: 'flex-end', marginTop:25, paddingRight:15, position: 'absolute'}} /> */}
    <Image source={exerciseImg}  style={styles.image} ></Image>
 <CardContent>
   <Text style={styles.text}>Step Quickly</Text>
@@ -325,7 +300,7 @@ elevation: 4}}>
      onPress={ subscription ? _unsubscribe : _subscribe}
       style={styles.button}
     >
-      <Text>{subscription ? 'Stop' : 'GO'}</Text>
+      <Text>{subscription ? 'Stop' : 'Go'}</Text>
      </TouchableOpacity>
 
      </CardContent>
@@ -432,13 +407,13 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 15,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 25,
     width: 170,
-    height: 38,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     borderRadius: 100,
     backgroundColor: '#A0CE4E',
     marginLeft:50
@@ -475,5 +450,8 @@ marginBottom: 2
       backgroundColor: '#A0CE4E',
       marginLeft:50
     },
+    titleText:{
+      marginTop:-10
+    }
 
 });
