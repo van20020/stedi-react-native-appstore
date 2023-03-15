@@ -9,8 +9,7 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.scmurdock.stediapp",
-      "deploymentTarget": "13.0"
+      "bundleIdentifier": "com.scmurdock.stediapp"
     },
     "android": {
       "package": "com.scmurdock.stediapp",
