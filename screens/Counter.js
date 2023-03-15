@@ -21,6 +21,8 @@ export default function Counter(props) {
  const [counter, setCounter] = useState(180); //(180 3 mins)
  const [score, setScore] = useState(0);
  const [currentScreen, setCurrentScreen] = useState('counter');
+ const [shareToken, setShareToken] = useState("");
+
 
 
  useEffect(()=>{//gets username and token from storage
@@ -28,6 +30,7 @@ export default function Counter(props) {
     userName.current= await AsyncStorage.getItem('userName');
     console.log('Counter userName',userName.current);    
     token.current = await AsyncStorage.getItem('sessionToken');
+    setShareToken(token.current);
    console.log('counter token:' ,token.current);
   };
   getUserName();
@@ -292,6 +295,7 @@ elevation: 4}}>
    title={stepCount}
    />
    <ManuanllyCounter visible={subscription} tallyLatestSteps={tallyLatestSteps}/>
+   <PopupModal shareToken={shareToken}/>
    {/* <FontAwesome5  name='redo' color='red' size={20} style={{ alignSelf: 'flex-end', marginTop:25, paddingRight:15, position: 'absolute'}} /> */}
    <Image source={exerciseImg}  style={styles.image} ></Image>
 <CardContent>
@@ -426,11 +430,12 @@ marginBottom: 2
     width: 122,
     height: 290,
   marginLeft: 100,
-  marginBottom: 20
+  marginBottom: 20,
+  marginTop:-45
   },
   bar:{
   marginTop:10,
-  marginBottom: 25,
+  marginBottom: 15,
   marginLeft: 10
   
   },
@@ -451,7 +456,7 @@ marginBottom: 2
       marginLeft:50
     },
     titleText:{
-      marginTop:-10
+      marginTop:-10,
     }
 
 });
