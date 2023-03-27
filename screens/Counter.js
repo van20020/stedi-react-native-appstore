@@ -349,49 +349,51 @@ elevation: 4}}>
 
   } else if(currentScreen == 'result'){
       return(
-        <View style={styles.screen}> 
-        <Card style={{backgroundColor:'white',  borderRadius: 10, marginTop: 20, marginBottom:20 ,width: 320, shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 2,
-},
-shadowOpacity: 0.23,
-shadowRadius: 2.62,
+        <View style={styles.screen}>
+          <Card style={{
+            backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20, width: 320, shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.23,
+            shadowRadius: 2.62,
 
-elevation: 4 }}>
- <TouchableOpacity onPress={shareProgress} style={{zIndex: 1 }}>
- <FontAwesome5 name='share-alt' color='#B4B4B4' size={20} style={{ marginTop:20,paddingLeft:280, position: 'absolute' }}/>
- </TouchableOpacity>
-    <CardContent style={{marginTop:60, marginLeft:20}}>
-    <Speedometer width ={250} 
-   value={score} 
-   max={100}
-   min={-100} >
-  <Background color='#A0CE4E' />
-  <Arc/>
-  <Needle circleColor='#A0CE4E'/>
-  <Progress color='#A0CE4E' />
-  <Marks/>
-  <Indicator/>
-</Speedometer>
+            elevation: 4
+          }}>
+            <TouchableOpacity onPress={shareProgress} style={{ zIndex: 1 }}>
+              <FontAwesome5 name='share-alt' color='#B4B4B4' size={20} style={{ marginTop: 20, paddingLeft: 280, position: 'absolute' }} />
+            </TouchableOpacity>
+            <CardContent style={{ marginTop: 60, marginLeft: 20 }}>
+              <Speedometer width={250}
+                value={score}
+                max={100}
+                min={-100} >
+                <Background color='#A0CE4E' />
+                <Arc />
+                <Needle circleColor='#A0CE4E' />
+                <Progress color='#A0CE4E' />
+                <Marks />
+                <Indicator />
+              </Speedometer>
 
-<CardTitle  titleStyle={{fontSize:20, textAlign:'center', fontWeight:'bold', marginTop:10}}
- subtitleStyle={{fontSize:18, color:'black', textAlign:'center'}}
-title={outcome()}
-subtitle={messageOutcome()}
-      /> 
-      <TouchableOpacity
-     onPress={close}
-      style={styles.button2}>
-        <Text>close</Text>
-      </TouchableOpacity>
-      <Text  style={{textAlign:'center', color: '#0000EE'}} onPress={() => Linking.openURL(url)}>More info</Text>
-     </CardContent>
-    </Card>
-         </View>
-      );
+              <CardTitle titleStyle={{ fontSize: 20, textAlign: 'center', fontWeight: 'bold', marginTop: 10 }}
+                subtitleStyle={{ fontSize: 18, color: 'black', textAlign: 'center' }}
+                title={outcome()}
+                subtitle={messageOutcome()}
+              />
+              <TouchableOpacity
+                onPress={close}
+                style={styles.button2}>
+                <Text>close</Text>
+              </TouchableOpacity>
+              <Text style={{ textAlign: 'center', color: '#0000EE' }} onPress={() => Linking.openURL(url)}>More info</Text>
+            </CardContent>
+          </Card>
+        </View>
+    );
 
-      }
+  }
 
 
 }

@@ -136,7 +136,7 @@ export default function Navigation (props) {
   
         <NavigationContainer>
         <Tab.Navigator
-        initialRouteName='Home'
+        initialRouteName='TabCounter'
         activeColor='#A0CE4E'
         screenOptions={{
             showLabel: 'false',
@@ -148,7 +148,7 @@ export default function Navigation (props) {
         
          }}>
              
-            <Tab.Screen  name="TabHome"
+            {/* <Tab.Screen  name="TabHome"
             // component={HomeStackScreen} 
             children={()=><HomeStackScreen homeTodayScore={props.homeTodayScore}/>}
             options={{
@@ -159,7 +159,7 @@ export default function Navigation (props) {
                  <Ionicons name='home-sharp' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
                  ),
                  }}
-            />
+            /> */}
             <Tab.Screen name="TabCounter" 
             // component={counterStackScreen}
             children={()=><CounterStackScreen/>}
