@@ -9,6 +9,7 @@ const About = (props) => {
     <SafeAreaView style={{}}>
     <Text  style={styles.text} onPress={() => Linking.openURL(url)}>Learn about Stedi Balance</Text>
      <Text style={styles.text} onPress={() => Linking.openURL(youtubeUrl)}>Tutorials</Text>
+     
  </SafeAreaView>
   )
 }

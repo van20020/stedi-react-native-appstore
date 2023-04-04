@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import { SafeAreaView } from 'react-navigation';
+import { useNavigation } from '@react-navigation/native';
 
 const Dots = ({selected})=> {
 let backgroundColor;
@@ -31,27 +32,30 @@ const Done = ({...props}) => {
 )}
 
 const OnboardingScreen = ({setFirstLaunch}) =>{
+  const navigation = useNavigation();
+
     return(
       // <SafeAreaView style={{ backgroundColor:'blue'}}>
 
         <Onboarding style={styles.container}
        DoneButtonComponent={Done}
       DotComponent={Dots}
-        onSkip={()=> setFirstLaunch(false)}
-        onDone={()=> setFirstLaunch(false)}
+        onSkip={()=> {
+          setFirstLaunch(false) 
+          navigation.replace('Login')
+        }}
+        onDone={()=> {
+           setFirstLaunch(false)
+           navigation.replace('Login')
+        }}
         pages={[
             {
               backgroundColor: '#fff',
               image: <Image   style={{height: '60%', width: '90%', resizeMode:'contain', marginBottom:-200}} source={require('../image/testing.png')} />,
-              title: <Text style={{fontWeight:'bold', textAlign:'center', color:'#A0CE4E', fontSize:19, margin:12,  marginTop: -70}}>Welcome to STEDI  Balance</Text>,
+              title: <Text style={{fontWeight:'bold', textAlign:'center', color:'#A0CE4E', fontSize:19, margin:12,  marginTop: -80}}>Welcome to STEDI  Balance</Text>,
               subtitle: 'Welcome to STEDI, we value your privacy. We will never sell your data or share it without permission. You will receive a text shortly to verify your phone number for your STEDI account.',
             },
-            {
-                backgroundColor: '#fff',
-                image: <Image style={{height: '60%', width: '80%', resizeMode:'contain', marginBottom:-100}} source={require('../image/yeah.png')} />,
-                title: <Text style={{fontWeight:'bold', fontSize: 19, margin:15, textAlign:'center', color:'#A0CE4E', marginTop: -130 }}>Congratulations!</Text>,
-                subtitle: 'You have created a profile with STEDI Balance',
-              },
+
               {
                 backgroundColor: '#fff',
                 image: <Image style={{height: '70%', width:'90%',  resizeMode:'contain', marginTop:-100}} source={require('../image/refer.png')} />,
@@ -59,18 +63,10 @@ const OnboardingScreen = ({setFirstLaunch}) =>{
                 subtitle: 'Share and invite your family and friends to see your progress with STEDI',
 
               }
-
         ]}
         />
     );
 };
-
-
-
-
-
-
-
 
 
 export default OnboardingScreen;
