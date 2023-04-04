@@ -5,6 +5,7 @@ import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import BarChart from 'react-native-bar-chart';
 import {Camera,CameraType} from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { color } from 'react-native-reanimated';
 
 
 
@@ -91,7 +92,7 @@ shadowOpacity: 0.23,
 shadowRadius: 2.62,
 
 elevation: 4}}>
-     <CardContent>
+     <CardContent style={{marginTop:40}}>
      <Image style={{height: 100, width:100, borderRadius: 75}}
       source={{uri:profilePhoto}}  />
     <Text style={{marginTop:10,marginBottom:10,fontWeight: 'bold'}}>{userName}</Text>
@@ -99,11 +100,18 @@ elevation: 4}}>
     <Text style={{marginTop:20,marginBottom:2}}>This Week's progress</Text>
 {/* <BarChart barColor='green' data={data} horizontalData={horizontalData} /> */}
      <View style={{ marginTop: 50 }}>
-      <Button onPress={myCustomerShare} title="Share" />
-      <Button onPress={()=>{
+      <TouchableOpacity 
+      style={styles.shareButton}
+       onPress={myCustomerShare}>
+      <Text style={{color:'white'}}>SHARE</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.logoutButton}
+       onPress={()=>{
         AsyncStorage.removeItem("sessionToken");
         props.setLoggedInState('NOT_LOGGED_IN');
-        }} title="Logout"/>      
+        }} >
+          <Text style={{color:'white',}}>LOGOUT</Text>
+        </TouchableOpacity>    
     </View>
     </CardContent>
     </Card>
@@ -118,6 +126,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20
   },
+  logoutButton:{
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginTop: 12,
+    borderRadius:10
+  },
+  shareButton:{
+    alignItems: 'center',
+    backgroundColor: '#67a3d9',
+    padding: 10,
+    marginTop: 5,
+    borderRadius:10
+  },
   camera: {
     flex: 1,
   },
@@ -127,11 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 64,
   },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
+
   text: {
     fontSize: 24,
     fontWeight: 'bold',

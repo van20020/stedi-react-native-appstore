@@ -21,7 +21,7 @@ const PopupModal = (props) => {
   });
   }
 
-  const onPressHandler =() =>{
+const onPressHandler =() =>{
 if(!modalVisible){
 setModalVisible(false);
 }else{

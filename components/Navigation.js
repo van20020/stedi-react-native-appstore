@@ -2,7 +2,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
+// import { NavigationContainer } from '@react-navigation/native';
 import {FontAwesome5} from '@expo/vector-icons';
 import{ Ionicons} from '@expo/vector-icons';
 
@@ -24,7 +24,6 @@ const HomeStackScreen = (props) =>{
 
     return(
     
-
      <Stack.Navigator
      screenOptions= {{
         headerStyle:{backgroundColor:'#A0CE4E'},
@@ -134,7 +133,7 @@ const Tab = createMaterialBottomTabNavigator();
 export default function Navigation (props) {
     return(
   
-        <NavigationContainer>
+       
         <Tab.Navigator
         initialRouteName='TabCounter'
         activeColor='#A0CE4E'
@@ -203,7 +202,7 @@ export default function Navigation (props) {
                   }}
             />
         </Tab.Navigator>
-        </NavigationContainer>
+      
     );
 }
 
