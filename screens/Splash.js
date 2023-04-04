@@ -11,7 +11,7 @@ const Splash = ({isFirstLaunch, loggedInStates, loggedInState}) =>{
         if(isFirstLaunch == true && loggedInState!=loggedInStates.LOGGED_IN){
         navigation.replace('Onboarding')
         }else if (loggedInState==loggedInStates.LOGGED_IN){
-            navigation.replace('Login')
+            navigation.replace('Navigation')
         }else if(loggedInState==loggedInStates.NOT_LOGGED_IN){
             navigation.replace('Login')
         }

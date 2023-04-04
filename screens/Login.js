@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useNavigation } from '@react-navigation/native';
@@ -32,7 +32,7 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
               placeholder='Cell Phone'>          
                </TextInput>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
              style={styles.bioButton}
               onPress={async () => {  
                 const biometricAuth = await LocalAuthentication.authenticateAsync({
@@ -43,9 +43,9 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
               }}
             >
             <Text style={{color:'white'}}>Biometric Authentication</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-             <Text style={{fontSize:20, marginVertical:30, textAlign:'center', color:'#818181'}}>Or</Text>
+             {/* <Text style={{fontSize:20, marginVertical:30, textAlign:'center', color:'#818181'}}>Or</Text> */}
 
             <TouchableOpacity
                style={styles.sendButton}

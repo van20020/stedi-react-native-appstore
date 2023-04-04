@@ -2,26 +2,12 @@
 import React, { useEffect,useRef, useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView , Share, ScrollView, Button} from 'react-native';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
+import { Avatar, Title, Caption } from 'react-native-paper';
 import BarChart from 'react-native-bar-chart';
 import {Camera,CameraType} from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { color } from 'react-native-reanimated';
 
-
-
-
-// const data = [
-//   [70, 0],
-//   [80,0],
-//   [110, 0],
-//   [100, 0],
-//   [280, 0],
-//   [80,0 ],
-//   [110, 0]
-
-// ];
-// labels
-// const horizontalData = ['S', 'M', 'T', 'W', 'T', 'F','S'];
 
 const Profile = (props) => {
 
@@ -29,6 +15,7 @@ const Profile = (props) => {
   const[profilePhoto,setProfilePhoto] = useState(null);
   const[cameraReady,setCameraReady]= useState(false);
   const cameraRef = useRef(null);
+  // const [score, setScore] = useState(0);
 
   useEffect(()=>{
     const getUserInfo= async()=>{
@@ -92,25 +79,55 @@ shadowOpacity: 0.23,
 shadowRadius: 2.62,
 
 elevation: 4}}>
-     <CardContent style={{marginTop:40}}>
-     <Image style={{height: 100, width:100, borderRadius: 75}}
-      source={{uri:profilePhoto}}  />
-    <Text style={{marginTop:10,marginBottom:10,fontWeight: 'bold'}}>{userName}</Text>
+     <CardContent style={{marginTop:15}}>
+      <View style={{flexDirection:'row', marginTop:15}}>
+        <Avatar.Image
+          source={{uri:profilePhoto}}
+          size={80} 
+       />
+      <View style={{marginLeft:20}}>
+        <Text style={[styles.title, {
+         marginTop:15,
+         marginBottom:5
+        }]}>{userName}</Text>
 
-    <Text style={{marginTop:20,marginBottom:2}}>This Week's progress</Text>
-{/* <BarChart barColor='green' data={data} horizontalData={horizontalData} /> */}
-     <View style={{ marginTop: 50 }}>
+      </View>
+      </View>
+
+      <Text style={{marginTop:25,marginBottom:10, color:'#A0CE4E', fontSize:17, fontWeight:'bold'}}>Your Index Score balance progress</Text>
+
+      <View style={styles.infoBoxWrapper}>
+        <View style={[styles.infoBox,{
+       marginBottom:10,
+       marginTop:5
+    }]}>
+        <Title>20</Title>
+        <Caption>Weekly index score</Caption>
+        <Text>radom balance</Text>
+        </View>
+        </View>
+        <View>
+        <View style={styles.infoBoxWrapper2}>
+        <Title>50</Title>
+        <Caption>Monthly index score</Caption>
+        <Text>radom balance</Text>
+        </View>
+        </View>
+   
+      
+
+     <View style={{ marginTop:30 }}>
       <TouchableOpacity 
       style={styles.shareButton}
        onPress={myCustomerShare}>
-      <Text style={{color:'white'}}>SHARE</Text>
+      <Text style={{color:'white'}}>Share</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.logoutButton}
        onPress={()=>{
         AsyncStorage.removeItem("sessionToken");
         props.setLoggedInState('NOT_LOGGED_IN');
         }} >
-          <Text style={{color:'white',}}>LOGOUT</Text>
+          <Text style={{color:'white',}}>Logout</Text>
         </TouchableOpacity>    
     </View>
     </CardContent>
@@ -125,6 +142,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20
+  },
+  infoBoxWrapper:{
+borderBottomColor:'#dddddd',
+borderBottomWidth:1,
+borderTopColor:'#dddddd',
+borderTopWidth:1,
+marginTop:5,
+// flexDirection:'row',
+height:100
+  },
+  infoBoxWrapper2:{
+    borderBottomColor:'#dddddd',
+    borderBottomWidth:1,
+    marginTop:5,
+    // flexDirection:'row',
+    height:100
   },
   logoutButton:{
     alignItems: 'center',
