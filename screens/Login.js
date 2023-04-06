@@ -10,19 +10,19 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
 
       const [phoneNumber,setPhoneNumber] = React.useState("");
       const [oneTimePassword, setOneTimePassword] = React.useState("");
-      const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
-      const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
+      // const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
+      // const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
 
  if(loggedInState==loggedInStates.NOT_LOGGED_IN){
     return (
       <View style={styles.allBody}>
         <Text style={styles.title}>Welcome Back</Text>
-            <Text style={styles.paragraph}> {isBiometricSupported ? 'Your device is compatible with Biometrics' 
+            {/* <Text style={styles.paragraph}> {isBiometricSupported ? 'Your device is compatible with Biometrics' 
         : 'Your device is not compatible with Biometrics'}
             </Text>        
             <Text style={styles.paragraph}> {isBiometricEnrolled ? 'You have saved a fingerprint or face' 
         : 'You have not saved a fingerprint or face'}
-            </Text>           
+            </Text>            */}
               <TextInput 
               value={phoneNumber}
               onChangeText={setPhoneNumber}
@@ -126,6 +126,13 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
     
           </View>
      )}
+     //you should never see this text
+     else if (loggedInState==loggedInStates.LOGGED_IN){
+      return(
+        <View>
+          <Text>you logged in</Text>
+        </View>
+      )}
 }
 
 export default Login

@@ -8,6 +8,7 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PopupModal from '../components/PopupModal';
 import ManuanllyCounter from '../components/ManuallyCounter';
@@ -281,7 +282,7 @@ if (currentScreen === 'counter'){
 
   return (
      <View style={styles.screen}> 
-     <Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 20, marginBottom:20 ,width: 320, shadowColor: "#000",
+     <Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 10, marginBottom:10 ,width: 340, shadowColor: "#000",
 shadowOffset: {
 	width: 0,
 	height: 2,
@@ -294,17 +295,23 @@ elevation: 4}}>
    subtitle={'Steps'}
    title={stepCount}
    />
-   <ManuanllyCounter visible={subscription} tallyLatestSteps={tallyLatestSteps}/>
+   {/* <ManuanllyCounter visible={subscription} tallyLatestSteps={tallyLatestSteps}/> */}
    <PopupModal shareToken={shareToken}/>
-   {/* <FontAwesome5  name='redo' color='red' size={20} style={{ alignSelf: 'flex-end', marginTop:25, paddingRight:15, position: 'absolute'}} /> */}
+
+   <TouchableOpacity
+   onPress={_unsubscribe}
+    style={styles.cancelButton} >
+   <Icon name={'close-circle'} color='red' size={45} />
+      </TouchableOpacity>
+
    <Image source={exerciseImg}  style={styles.image} ></Image>
 <CardContent>
-  <Text style={styles.text}>Step Quickly</Text>
+  {/* <Text style={styles.text}>Step Quickly</Text> */}
   <TouchableOpacity
      onPress={ subscription ? _unsubscribe : _subscribe}
       style={styles.button}
     >
-      <Text>{subscription ? 'Stop' : 'Go'}</Text>
+      <Text style={{color:'white', fontSize:20}}>{subscription ? 'Add step' : 'Go'}</Text>
      </TouchableOpacity>
 
      </CardContent>
@@ -411,35 +418,46 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
+  cancelButton:{
+    alignSelf: 'flex-end',
+    marginTop:10,
+    padding: 10,
+    position:'absolute',
+    width: 70,
+    height: 70,
+    borderRadius: 100,
+    // backgroundColor: 'red',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
   button: {
-    marginTop: 5,
-    marginBottom: 25,
-    width: 170,
-    height: 35,
+    width: 100,
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5,
+    padding: 10,
     borderRadius: 100,
     backgroundColor: '#A0CE4E',
-    marginLeft:50
+    marginLeft:100,
   },
   text:{
 textAlign: 'center',
 marginBottom: 2
   },
   image:{
-    width: 122,
-    height: 290,
-  marginLeft: 100,
-  marginBottom: 20,
-  marginTop:-45
+    width: 125,
+    height:300,
+    marginLeft: 100,
+    marginBottom: 20,
+     marginTop:-150,
+     justifyContent: 'center',
+     alignItems: 'center',
   },
   bar:{
   marginTop:10,
   marginBottom: 15,
-  marginLeft: 10
-  
+  marginLeft: 20,
+
   },
   bar2:{
     marginLeft: -5

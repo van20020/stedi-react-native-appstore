@@ -21,11 +21,11 @@ const App = () =>{
 
   const [isFirstLaunch, setFirstLaunch] = React.useState(true);
   const [loggedInState, setLoggedInState] = React.useState(loggedInStates.NOT_LOGGED_IN);
-
+console.log('app.js login:',loggedInState)
   return(
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name='Splash' children={()=><Splash loggedInStates={loggedInStates} loggedInState={loggedInState} isFirstLaunch={isFirstLaunch}/>}/>
+        <Stack.Screen name='Splash' children={()=><Splash loggedInStates={loggedInStates} loggedInState={loggedInState} isFirstLaunch={isFirstLaunch} setLoggedInState={setLoggedInState}/>}/>
         <Stack.Screen name='Onboarding' children={()=><OnboardingScreen setFirstLaunch={setFirstLaunch}/>}/>
         <Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState}/>}/>
         <Stack.Screen name='Navigation' children={()=><Navigation loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState}/>}/>

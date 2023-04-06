@@ -17,7 +17,6 @@ const addStepsManually = async() =>{
    return( props.visible?(
     <TouchableOpacity style={styles.button} onPress={addStepsManually}>
     <Text style={styles.textButton}>Counter</Text>
-    {/* <Text>{subscription ? 'Stop' : 'GO'}</Text> */}
   </TouchableOpacity>
    ): null
    );

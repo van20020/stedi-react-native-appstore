@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-n
 import Onboarding from 'react-native-onboarding-swiper';
 import { SafeAreaView } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Dots = ({selected})=> {
 let backgroundColor;
@@ -41,10 +42,13 @@ const OnboardingScreen = ({setFirstLaunch}) =>{
        DoneButtonComponent={Done}
       DotComponent={Dots}
         onSkip={()=> {
+          AsyncStorage.setItem('onBoarded', 'true');
           setFirstLaunch(false) 
           navigation.replace('Login')
+         
         }}
         onDone={()=> {
+          AsyncStorage.setItem('onBoarded', 'true');
            setFirstLaunch(false)
            navigation.replace('Login')
         }}

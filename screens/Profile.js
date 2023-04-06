@@ -3,10 +3,10 @@ import React, { useEffect,useRef, useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView , Share, ScrollView, Button} from 'react-native';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import { Avatar, Title, Caption } from 'react-native-paper';
-import BarChart from 'react-native-bar-chart';
+
 import {Camera,CameraType} from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { color } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Profile = (props) => {
@@ -16,6 +16,8 @@ const Profile = (props) => {
   const[cameraReady,setCameraReady]= useState(false);
   const cameraRef = useRef(null);
   // const [score, setScore] = useState(0);
+
+  const navigation = useNavigation();
 
   useEffect(()=>{
     const getUserInfo= async()=>{
@@ -51,7 +53,7 @@ const Profile = (props) => {
         exif:false
       }
       return (
-        <View style={styles.container}>
+        <View>
         <Camera type={CameraType.front} style={styles.camera} ref={cameraRef} onCameraReady={()=>{setCameraReady(true)}}>
           <View style={styles.buttonContainer}>
             {cameraReady?<TouchableOpacity style={styles.button} onPress={async ()=> {
@@ -69,8 +71,8 @@ const Profile = (props) => {
       )
     } else {
   return (
-    <SafeAreaView style={{flex: 1}}>
-         <Card style={{backgroundColor:'white', borderRadius: 10, margin:20 ,width: 320, shadowColor: "#000",
+    <SafeAreaView style={styles.container}>
+         <Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 10, marginBottom:10 ,width: 340, shadowColor: "#000",
 shadowOffset: {
 	width: 0,
 	height: 2,
@@ -126,6 +128,7 @@ elevation: 4}}>
        onPress={()=>{
         AsyncStorage.removeItem("sessionToken");
         props.setLoggedInState('NOT_LOGGED_IN');
+        navigation.replace('Login');
         }} >
           <Text style={{color:'white',}}>Logout</Text>
         </TouchableOpacity>    
@@ -140,8 +143,8 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 20
+    alignItems: "center",
+    justifyContent: "center",
   },
   infoBoxWrapper:{
 borderBottomColor:'#dddddd',
@@ -149,7 +152,6 @@ borderBottomWidth:1,
 borderTopColor:'#dddddd',
 borderTopWidth:1,
 marginTop:5,
-// flexDirection:'row',
 height:100
   },
   infoBoxWrapper2:{
