@@ -127,6 +127,7 @@ elevation: 4}}>
       <TouchableOpacity style={styles.logoutButton}
        onPress={()=>{
         AsyncStorage.removeItem("sessionToken");
+        AsyncStorage.removeItem("onBoarded");
         props.setLoggedInState('NOT_LOGGED_IN');
         navigation.replace('Login');
         }} >

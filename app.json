@@ -1,6 +1,9 @@
 {
   "expo": {
     "name": "STEDI App",
+    "splash":{
+      "image":"./image/icon-img.png"
+    },
     "slug": "stedi-app",
     "icon": "./image/icon-img.png",
     "extra": {
@@ -9,8 +12,7 @@
       }
     },
     "ios": {
-      "bundleIdentifier": "com.scmurdock.stediapp",
-      "deploymentTarget": "13.0"
+      "bundleIdentifier": "com.scmurdock.stediapp"
     },
     "android": {
       "package": "com.scmurdock.stediapp",
