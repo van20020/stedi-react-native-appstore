@@ -2,6 +2,7 @@ import React, { useRef, useState} from 'react';
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 
 
 const Help = (props) =>{
@@ -36,7 +37,16 @@ setSubject(null);
 }
 }
 return(
-<View>
+<View style={styles.container}>
+<Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 10, marginBottom:10 ,width: 340, shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 2,
+},
+shadowOpacity: 0.23,
+shadowRadius: 2.62,
+
+elevation: 4}}>
 <Text style={styles.text}>Contact us</Text>
 <TextInput 
  style={styles.input}
@@ -81,10 +91,16 @@ style={styles.button} >
   style={styles.button}>
   <Text style={styles.text2}>Submit</Text>
 </TouchableOpacity>
+</Card>
   </View>
 )}
 export default Help;
  const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   text:{
   marginLeft:15,
    marginRight:15,

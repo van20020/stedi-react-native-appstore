@@ -63,14 +63,16 @@ const CounterStackScreen = () =>{
     );
 }
 
-const ProfileStackScreen = () =>{
+const ProfileStackScreen = (props) =>{
     return(
      <Stack.Navigator
      screenOptions= {{
         headerStyle:{backgroundColor:'#A0CE4E'},
         headerTintColor:'white'}}>
 
-        <Stack.Screen name="Profile" component={Profile} options={{
+        <Stack.Screen name="Profile" 
+         children={()=><Profile setLoggedInState={props.setLoggedInState}/>}
+        options={{
              headerTitleAlign: "center",
              headerTitleStyle:{
                fontWeight:'bold', 
@@ -131,6 +133,7 @@ const HelpStackScreen = () =>{
 const Tab = createMaterialBottomTabNavigator();
 
 export default function Navigation (props) {
+   console.log('navigation testing:', props.loggedInState)
     return(
   
        

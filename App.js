@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity,TextInput, Button, Aler
 import  Navigation from './components/Navigation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnboardingScreen from './screens/OnboardingScreen';
-import Splash from './screens/Splash';
 import Login from './screens/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,11 +20,10 @@ const App = () =>{
 
   const [isFirstLaunch, setFirstLaunch] = React.useState(true);
   const [loggedInState, setLoggedInState] = React.useState(loggedInStates.NOT_LOGGED_IN);
-
+console.log('app.js login:',loggedInState)
   return(
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name='Splash' children={()=><Splash loggedInStates={loggedInStates} loggedInState={loggedInState} isFirstLaunch={isFirstLaunch}/>}/>
+      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='Login'>
         <Stack.Screen name='Onboarding' children={()=><OnboardingScreen setFirstLaunch={setFirstLaunch}/>}/>
         <Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState}/>}/>
         <Stack.Screen name='Navigation' children={()=><Navigation loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState}/>}/>

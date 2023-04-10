@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, } from "react-native";
+import React, {useEffect} from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useNavigation } from '@react-navigation/native';
@@ -10,19 +10,58 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
 
       const [phoneNumber,setPhoneNumber] = React.useState("");
       const [oneTimePassword, setOneTimePassword] = React.useState("");
-      const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
-      const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
+      const [onBoarded,setOnBoarded] = React.useState("");
+      // const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
+      // const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
+
+useEffect(()=>{
+
+  
+
+  const getSessionToken = async()=>{
+    const getOnBoarded = await AsyncStorage.getItem('onBoarded');
+    setOnBoarded(getOnBoarded);
+    console.log("onBoarded:", getOnBoarded);
+    const sessionToken =  await AsyncStorage.getItem('sessionToken');
+      console.log('sessionToken',sessionToken);
+      const validateResponse = await fetch('https://dev.stedi.me/validate/'+sessionToken,
+      {
+        method:'GET',
+        headers:{
+          'content-type':'application/text'
+        }
+      }    
+      );    
+  
+      if(validateResponse.status==200){//we know it is a good non-expired token
+        const userName = await validateResponse.text();
+        await AsyncStorage.setItem('userName',userName);//save user name for later
+        setLoggedInState(loggedInStates.LOGGED_IN);
+      }
+
+      if(getOnBoarded != 'true'){
+          navigation.replace('Onboarding')
+        }else if (loggedInState==loggedInStates.LOGGED_IN){
+            navigation.replace('Navigation')
+        }else if(loggedInState==loggedInStates.NOT_LOGGED_IN){
+            console.log('going to login screen:',loggedInState)
+            // navigation.replace('Login')
+        }      
+     }
+     getSessionToken();
+
+},[]);      
 
  if(loggedInState==loggedInStates.NOT_LOGGED_IN){
     return (
       <View style={styles.allBody}>
         <Text style={styles.title}>Welcome Back</Text>
-            <Text style={styles.paragraph}> {isBiometricSupported ? 'Your device is compatible with Biometrics' 
+            {/* <Text style={styles.paragraph}> {isBiometricSupported ? 'Your device is compatible with Biometrics' 
         : 'Your device is not compatible with Biometrics'}
             </Text>        
             <Text style={styles.paragraph}> {isBiometricEnrolled ? 'You have saved a fingerprint or face' 
         : 'You have not saved a fingerprint or face'}
-            </Text>           
+            </Text>            */}
               <TextInput 
               value={phoneNumber}
               onChangeText={setPhoneNumber}
@@ -63,7 +102,7 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
                 )
                 const sendTextResponseData = await sendTextResponse.text();
                 if(sendTextResponse.status!=200){//invalid phone number, send them to the signup page
-                  await Linking.openURL('https://dev.stedi.me/createcustomer.html');
+                  await Alert.alert("Did you type your number correctly? "+phoneNumber);
                 } else{
                   setLoggedInState(loggedInStates.LOGGING_IN);
                 }
@@ -126,6 +165,14 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
     
           </View>
      )}
+     //you should never see this text
+     else if (loggedInState==loggedInStates.LOGGED_IN){
+      navigation.replace("Navigation");
+      return(
+        <View>
+          <Text>you logged in</Text>
+        </View>
+      )}
 }
 
 export default Login
