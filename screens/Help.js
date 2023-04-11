@@ -112,6 +112,7 @@ export default Help;
     // height: 40,
     margin: 12,
     borderWidth: 1,
+    width:315,
     padding:5,
     borderRadius: 5,
   },
@@ -119,16 +120,15 @@ export default Help;
     margin: 12,
     borderWidth: 1,
     padding:5,
+    width:315,
     borderRadius: 5,
     marginTop:25,
     textAlignVertical: "top"
  
   },
   button: {
-
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: 10,
+  padding:10,
+  width:315,
   borderRadius: 5,
   backgroundColor: '#A0CE4E',
  tintColor: 'white',
@@ -138,7 +138,7 @@ export default Help;
 
   },
   dropdown:{
-  width: 336,
+  width: 315,
   height:42,
   marginLeft:12,
   marginTop:10,
@@ -147,7 +147,8 @@ export default Help;
   },
   text2:{
     color:'white',
-    fontSize:15
+    fontSize:15,
+    textAlign:'center'
   },
   disabledaText:{
     fontSize:14,
