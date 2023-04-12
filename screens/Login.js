@@ -167,7 +167,6 @@ useEffect(()=>{
      )}
      //you should never see this text
      else if (loggedInState==loggedInStates.LOGGED_IN){
-      navigation.replace("Navigation");
       return(
         <View>
           <Text>you logged in</Text>

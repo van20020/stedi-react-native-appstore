@@ -1,6 +1,16 @@
 {
   "expo": {
     "name": "STEDI App",
+    "plugins":[
+      [
+        "expo-build-properties",
+        {
+          "ios":{
+            "deploymentTarget":"13.0"
+          }
+        }
+      ]
+    ],
     "splash":{
       "image":"./image/icon-img.png"
     },
