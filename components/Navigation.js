@@ -195,7 +195,8 @@ export default function Navigation (props) {
                   }}
             />
             <Tab.Screen name="TabHelp" 
-            component={HelpStackScreen}
+            // component={HelpStackScreen}
+            children={()=><HelpStackScreen sessionToken={props.sessionToken}/>}
             options={{
                 // tabBarColor:'pink',
                    tabBarLabel: 'Help',

@@ -3,7 +3,6 @@
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-masked-view/masked-view": "0.2.6",
-    "@react-native-picker/picker": "github:react-native-picker/picker",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/material-bottom-tabs": "^6.0.9",
@@ -33,7 +32,6 @@
     "react-native-circular-progress-indicator": "^4.2.0",
     "react-native-components": "0.0.1",
     "react-native-cool-speedometer": "^1.1.5",
-    "react-native-dropdown-picker": "^5.4.2",
     "react-native-elements": "^3.4.2",
     "react-native-gauge": "^0.1.2",
     "react-native-gesture-handler": "^2.8.0",
@@ -66,8 +64,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "build-ios": "npx eas-cli build --profile production --platform ios",
-    "build-ios-preview": "npx eas-cli build --profile preview --platform ios"
+    "build-ios": "rm ./package-lock.json ; npx eas-cli build --profile production --platform ios",
+    "build-ios-preview": "rm ./package-lock.json ; npx eas-cli build --profile preview --platform ios"
   },
   "private": true
 }

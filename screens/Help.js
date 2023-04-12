@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'rea
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 
 
-const Help = (props) =>{
+const Help = ({sessionToken}) =>{
 const [subject, setSubject] = useState('disabled');
 showOption = (option) =>{
 if( showOption !== 'disabled'){
@@ -25,7 +25,10 @@ name,
 toAddress,
 subject,
 messageText
-  })
+  }),
+  headers:{
+    "suresteps.session.token":sessionToken
+  }
 })
 setNotification ("Thanks for submitting!");
 setToAddress(null);
