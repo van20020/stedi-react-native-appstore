@@ -10,47 +10,11 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
 
       const [phoneNumber,setPhoneNumber] = React.useState("");
       const [oneTimePassword, setOneTimePassword] = React.useState("");
-      const [onBoarded,setOnBoarded] = React.useState("");
+
       // const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
       // const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
 
-useEffect(()=>{
-
-  
-
-  const getSessionToken = async()=>{
-    const getOnBoarded = await AsyncStorage.getItem('onBoarded');
-    setOnBoarded(getOnBoarded);
-    console.log("onBoarded:", getOnBoarded);
-    const sessionToken =  await AsyncStorage.getItem('sessionToken');
-      console.log('sessionToken',sessionToken);
-      const validateResponse = await fetch('https://dev.stedi.me/validate/'+sessionToken,
-      {
-        method:'GET',
-        headers:{
-          'content-type':'application/text'
-        }
-      }    
-      );    
-  
-      if(validateResponse.status==200){//we know it is a good non-expired token
-        const userName = await validateResponse.text();
-        await AsyncStorage.setItem('userName',userName);//save user name for later
-        setLoggedInState(loggedInStates.LOGGED_IN);
-      }
-
-      if(getOnBoarded != 'true'){
-          navigation.replace('Onboarding')
-        }else if (loggedInState==loggedInStates.LOGGED_IN){
-            navigation.replace('Navigation')
-        }else if(loggedInState==loggedInStates.NOT_LOGGED_IN){
-            console.log('going to login screen:',loggedInState)
-            // navigation.replace('Login')
-        }      
-     }
-     getSessionToken();
-
-},[]);      
+     
 
  if(loggedInState==loggedInStates.NOT_LOGGED_IN){
     return (
@@ -167,7 +131,6 @@ useEffect(()=>{
      )}
      //you should never see this text
      else if (loggedInState==loggedInStates.LOGGED_IN){
-      navigation.replace("Navigation");
       return(
         <View>
           <Text>you logged in</Text>
