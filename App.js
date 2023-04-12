@@ -25,7 +25,7 @@ const App = () =>{
 console.log('app.js login:',loggedInState)
   return(
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName={loggedInState!=loggedInStates.LOGGED_IN?'Navigation':'Login'}>
+      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName={loggedInState!=loggedInStates.LOGGED_IN?'Login':'Navigation'}>
         <Stack.Screen name='Onboarding' children={()=><OnboardingScreen setFirstLaunch={setFirstLaunch}/>}/>
         {loggedInState!=loggedInStates.LOGGED_IN?<Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} setSessionToken={setSessionToken}/>}/>:null}
         <Stack.Screen name='Navigation' children={()=><Navigation loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} sessionToken={sessionToken}/>}/>

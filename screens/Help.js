@@ -1,7 +1,6 @@
 import React, { useRef, useState} from 'react';
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
-// import { Picker } from '@react-native-picker/picker';
-// import DropDownPicker from 'react-native-dropdown-picker';
+import { Picker } from '@react-native-picker/picker';
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 
 
@@ -65,7 +64,7 @@ elevation: 4}}>
         placeholder="Email"
       />
       <View style={styles.dropdown} >
-      {/* <Picker onValueChange={showOption}
+      <Picker onValueChange={showOption}
       selectedValue={subject}
       >
       <Picker.Item style={styles.disabledaText} label= 'Please select a subject' value= 'disabled' color='#aaa'/>
@@ -73,7 +72,7 @@ elevation: 4}}>
         <Picker.Item  label= 'I have an idea for improving STEDI' value= 'IDEA_IMPROVE_STEDI'/>
         <Picker.Item  label= 'I need help using the app' value= 'HELP_USING_APP'/>
         <Picker.Item  label= 'I need advice about my balance' value= 'ADVICE_ABOUT_BALANCE'/>
-      </Picker> */}
+      </Picker>
       </View>
  <TextInput
         style={styles.input2}
