@@ -32,8 +32,15 @@ const Done = ({...props}) => {
   <Text>Done</Text></TouchableOpacity>
 )}
 
-const OnboardingScreen = ({setFirstLaunch}) =>{
+const OnboardingScreen = ({setFirstLaunch, loggedInState, loggedInStates}) =>{
   const navigation = useNavigation();
+
+    const changeOnboardingState = ()=>{
+      AsyncStorage.setItem('onBoarded', 'true');
+      setFirstLaunch(false) 
+      navigation.replace(loggedInState==loggedInStates.LOGGED_IN?'Navigation':'Login');
+     
+    }
 
     return(
       // <SafeAreaView style={{ backgroundColor:'blue'}}>
@@ -41,17 +48,8 @@ const OnboardingScreen = ({setFirstLaunch}) =>{
         <Onboarding style={styles.container}
        DoneButtonComponent={Done}
       DotComponent={Dots}
-        onSkip={()=> {
-          AsyncStorage.setItem('onBoarded', 'true');
-          setFirstLaunch(false) 
-          navigation.replace('Login')
-         
-        }}
-        onDone={()=> {
-          AsyncStorage.setItem('onBoarded', 'true');
-           setFirstLaunch(false)
-           navigation.replace('Login')
-        }}
+        onSkip={changeOnboardingState}
+        onDone={changeOnboardingState}
         pages={[
             {
               backgroundColor: '#fff',

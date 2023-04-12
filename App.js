@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity,TextInput, Button, Alert,Linking,ImageBackground} from 'react-native';
 import  Navigation from './components/Navigation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +10,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 
 
 const Stack = createNativeStackNavigator();
+
 const loggedInStates={
   NOT_LOGGED_IN:'NOT_LOGGED_IN',
   LOGGED_IN:'LOGGED_IN',
@@ -17,17 +18,78 @@ const loggedInStates={
 }
 
 const App = () =>{
-
   const [isFirstLaunch, setFirstLaunch] = React.useState(true);
   const [loggedInState, setLoggedInState] = React.useState(loggedInStates.NOT_LOGGED_IN);
   const [sessionToken, setSessionToken] = React.useState("");
+  const [onBoarded,setOnBoarded] = React.useState(false);
+  const onBoardedRef = useRef(false);
 
-console.log('app.js login:',loggedInState)
+  useEffect(()=>{
+
+  
+
+    const getSessionToken = async()=>{
+      const getOnBoarded = await AsyncStorage.getItem('onBoarded');
+      setOnBoarded(getOnBoarded=='true');
+      onBoardedRef.current='true'==getOnBoarded;
+      console.log("onBoarded:", getOnBoarded);
+      const sessionToken =  await AsyncStorage.getItem('sessionToken');
+        console.log('sessionToken',sessionToken);
+        const validateResponse = await fetch('https://dev.stedi.me/validate/'+sessionToken,
+        {
+          method:'GET',
+          headers:{
+            'content-type':'application/text'
+          }
+        }    
+        );    
+    
+        if(validateResponse.status==200){//we know it is a good non-expired token
+          const userName = await validateResponse.text();
+          await AsyncStorage.setItem('userName',userName);//save user name for later
+          setLoggedInState(loggedInStates.LOGGED_IN);
+        }
+        console.log('app.js login:',loggedInState)
+        let initialRouteName=onBoardedRef.current !=true ? 'Onboarding' : (loggedInState==loggedInStates.LOGGED_IN ? 'Navigation' : 'Login')
+        console.log('initialRouteName: '+initialRouteName);
+        console.log('onBoardedRef.current:'+onBoardedRef.current);
+        // if(getOnBoarded != 'true'){
+        //     navigation.replace('Onboarding')
+        //   }else if (loggedInState==loggedInStates.LOGGED_IN){
+        //       navigation.replace('Navigation')
+        //   }else if(loggedInState==loggedInStates.NOT_LOGGED_IN){
+        //       console.log('going to login screen:',loggedInState)
+        //       // navigation.replace('Login')
+        //   }      
+       }
+       getSessionToken();
+  
+  },[]); 
+
+
+  const getInitialRoute = ()=>{
+    let initialRoute = 'Login';
+
+    if(loggedInState==loggedInStates.LOGGED_IN){
+      initialRoute='Navigation';
+    }
+
+    if (onBoarded==false){
+      initialRoute='Onboarding';
+    }
+    console.log('InitialRoute: '+initialRoute);
+
+    return initialRoute;
+  }
+
   return(
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName={loggedInState!=loggedInStates.LOGGED_IN?'Login':'Navigation'}>
-        <Stack.Screen name='Onboarding' children={()=><OnboardingScreen setFirstLaunch={setFirstLaunch}/>}/>
-        {loggedInState!=loggedInStates.LOGGED_IN?<Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} setSessionToken={setSessionToken}/>}/>:null}
+      <Stack.Navigator screenOptions={{headerShown:false}}>
+        {/* We only show the Onboarding component the first time they run the app*/}
+        {onBoarded ? null : (<Stack.Screen name='Onboarding' children={()=><OnboardingScreen setFirstLaunch={setFirstLaunch} loggedInStates={loggedInStates} loggedInState={loggedInState}/>}/>)}
+        {/* We  show the login component if they don't have a valid login token already stored in the app*/}        
+        {loggedInState==loggedInStates.LOGGED_IN ? null : (<Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} setSessionToken={setSessionToken}/>}/>)}
+        {/* If they have logged in, and seen the onboarding component, we show them the tabbed navigation component*/}  
         <Stack.Screen name='Navigation' children={()=><Navigation loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} sessionToken={sessionToken}/>}/>
       </Stack.Navigator>
     </NavigationContainer>
