@@ -62,6 +62,7 @@ elevation: 4}}>
         onChangeText={(val)=> setToAddress(val)}
         placeholder="Email"
       />
+
  <TextInput
         style={styles.input2}
         multiline
