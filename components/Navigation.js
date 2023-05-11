@@ -11,7 +11,6 @@ import{ Ionicons} from '@expo/vector-icons';
 import Help from '../screens/Help';
 import Counter from '../screens/Counter';
 import About from '../screens/About';
-import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 
 
@@ -20,28 +19,6 @@ import Profile from '../screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
-const HomeStackScreen = (props) =>{
-
-    return(
-    
-     <Stack.Navigator
-     screenOptions= {{
-        headerStyle:{backgroundColor:'#A0CE4E'},
-        headerTintColor:'white',
-      }}
-     >
-        <Stack.Screen name="Home" component={Home} options={{
-             headerTitleAlign: "center",
-             headerTitleStyle:{
-              fontWeight:'bold', 
-              fontSize:22
-             }
-         }}>
-        </Stack.Screen>
-     </Stack.Navigator>
-
-    );
-}
 
 
 const CounterStackScreen = () =>{
@@ -150,18 +127,6 @@ export default function Navigation (props) {
         
          }}>
              
-            {/* <Tab.Screen  name="TabHome"
-            // component={HomeStackScreen} 
-            children={()=><HomeStackScreen homeTodayScore={props.homeTodayScore}/>}
-            options={{
-               // tabBarColor:'pink',
-                  tabBarLabel: 'Home',
-                  
-                tabBarIcon: ({ color }) => (
-                 <Ionicons name='home-sharp' color={color} size={28} style={{ width: 30,  height: 30, marginTop: -3 }} />
-                 ),
-                 }}
-            /> */}
             <Tab.Screen name="TabCounter" 
             // component={counterStackScreen}
             children={()=><CounterStackScreen/>}

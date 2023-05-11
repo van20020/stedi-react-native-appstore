@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Share, Linking} from 'react-native';
-import { Accelerometer } from 'expo-sensors';
-import getSpikesFromAccelerometer from '../utils/StepCalculator';
 import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,DangerPath
 } from 'react-native-cool-speedometer';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button } from 'react-native-material-cards'
@@ -214,19 +212,7 @@ console.log('Error', error)
   const recentAccelerationData = useRef([]);//useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
   const steps = useRef([]);//useRef returns a mutable ref object whose .current property is initialized to the passed argument (initialValue). The returned object will persist for the full lifetime of the component.
   const [stepCount, setStepCount] = useState(0);
-  const previousHighPointTimeRef = useRef(0);//this is the most recent time we had a spike in acceleration, we initialize it to 0 meaning none
-  const previousValue = useRef(0);//we process every 20 measurements, and this will be the 20th measurement from the previous time we processed data, start it at 0
-  //Android Docs: The data delay (or sampling rate) controls the interval at which sensor events are sent to your application via the onSensorChanged() callback method. The default data delay is suitable for monitoring typical screen orientation changes and uses a delay of 200,000 microseconds. You can specify other data delays, such as SENSOR_DELAY_GAME (20,000 microsecond delay), SENSOR_DELAY_UI (60,000 microsecond delay), or SENSOR_DELAY_FASTEST (0 microsecond delay).
-  // https://developer.android.com/guide/topics/sensors/sensors_overview#java
 
-  //Unable to find the default update interval, however the game play rate in Android is 20 millisecond intervals
-  const _slow = () => {
-    Accelerometer.setUpdateInterval(1000);
-  };
-
-  const _fast = () => {
-    Accelerometer.setUpdateInterval(100);
-  };
 
   const _subscribe = () => {
     setSubscription(true)
@@ -257,7 +243,6 @@ console.log('Error', error)
   const _unsubscribe = () => {
     // tallyLatestSteps();//count the last remaining steps before unsubscribing
     subscription && setSubscription(false);
-    Accelerometer.removeAllListeners();
     console.log("_")
     setSubscription(null);
   };
@@ -265,7 +250,6 @@ console.log('Error', error)
   useEffect(() => {
     //_subscribe();
     steps.current=[];
-    Accelerometer.setUpdateInterval(100);
     return () => _unsubscribe();
   }, []);
 

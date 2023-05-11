@@ -4,7 +4,6 @@ import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView , Share, 
 import { Card, CardTitle, CardContent} from 'react-native-material-cards';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
-import {Camera,CameraType} from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,24 +11,14 @@ import { useNavigation } from '@react-navigation/native';
 const Profile = (props) => {
 
   const [userName, setUserName] = useState("");
-  const[profilePhoto,setProfilePhoto] = useState(null);
-  const[cameraReady,setCameraReady]= useState(false);
-  const cameraRef = useRef(null);
-  // const [score, setScore] = useState(0);
 
   const navigation = useNavigation();
 
   useEffect(()=>{
     const getUserInfo= async()=>{
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      //setCameraPermission(cameraPermission);
       const userName = await AsyncStorage.getItem('userName');
       console.log('userName',userName);
       setUserName(userName);
-      // await AsyncStorage.removeItem('profilePhoto');
-      const profilePhoto = await AsyncStorage.getItem('profilePhoto');
-      
-      setProfilePhoto(profilePhoto);
 
     }
     getUserInfo();
@@ -47,29 +36,7 @@ const Profile = (props) => {
   console.log('Error', error)
       }
     }
-    if(profilePhoto==null){
-      const cameraOptions={
-        quality:0,
-        exif:false
-      }
-      return (
-        <View>
-        <Camera type={CameraType.front} style={styles.camera} ref={cameraRef} onCameraReady={()=>{setCameraReady(true)}}>
-          <View style={styles.buttonContainer}>
-            {cameraReady?<TouchableOpacity style={styles.button} onPress={async ()=> {
-              
-              const picture = await cameraRef.current.takePictureAsync(cameraOptions);
-              console.log('Picture',picture);
-              await AsyncStorage.setItem('profilePhoto',picture.uri);
-              setProfilePhoto(picture.uri);
-              }}>
-              <Text style={styles.text}>Take Picture</Text>
-            </TouchableOpacity>: null}
-          </View>
-        </Camera>
-      </View>
-      )
-    } else {
+
   return (
     <SafeAreaView style={styles.container}>
          <Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 10, marginBottom:10 ,width: 340, shadowColor: "#000",
@@ -84,7 +51,7 @@ elevation: 4}}>
      <CardContent style={{marginTop:15}}>
       <View style={{flexDirection:'row', marginTop:15}}>
         <Avatar.Image
-          source={{uri:profilePhoto}}
+          source={{uri:null}}
           size={80} 
        />
       <View style={{marginLeft:20}}>
@@ -138,7 +105,7 @@ elevation: 4}}>
     </Card>
  </SafeAreaView>
   );
-}
+
 };
 export default Profile;
 const styles = StyleSheet.create({
