@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Share, Linking} from 'react-native';
 import Speedometer, {Background, Arc, Needle, Progress, Marks, Indicator,DangerPath
 } from 'react-native-cool-speedometer';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button } from 'react-native-material-cards'
+import { Card, CardTitle, CardContent} from 'react-native-material-cards'
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -10,9 +10,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PopupModal from '../components/PopupModal';
 import ManuallyCounter from '../components/ManuallyCounter';
-// import { Ionicons} from 'react-native-vector-icons';
-// import { Button } from 'react-native-elements';
-// import { IconButton } from 'react-native-paper';
 
 
 export default function Counter(props) {

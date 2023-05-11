@@ -1,5 +1,5 @@
 import getSpikesFromAccelerometer from '../utils/StepCalculator';
-import {createObjectCsvWriter} from 'csv-writer';
+
 
 it ("Should Show 60 Steps Taken", ()=>{
 

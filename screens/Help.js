@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 import { Card} from 'react-native-material-cards';
 
@@ -62,9 +62,6 @@ elevation: 4}}>
         onChangeText={(val)=> setToAddress(val)}
         placeholder="Email"
       />
-      <View style={styles.dropdown} >
-
-      </View>
  <TextInput
         style={styles.input2}
         multiline

@@ -1,7 +1,7 @@
 
-import React, { useEffect,useRef, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Image, SafeAreaView , Share, ScrollView, Button} from 'react-native';
-import { Card, CardTitle, CardContent} from 'react-native-material-cards';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity, StyleSheet, Text, View, SafeAreaView , Share} from 'react-native';
+import { Card, CardContent} from 'react-native-material-cards';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,7 +19,6 @@ const Profile = (props) => {
       const userName = await AsyncStorage.getItem('userName');
       console.log('userName',userName);
       setUserName(userName);
-
     }
     getUserInfo();
   });
@@ -36,7 +35,6 @@ const Profile = (props) => {
   console.log('Error', error)
       }
     }
-
   return (
     <SafeAreaView style={styles.container}>
          <Card style={{backgroundColor:'white', borderRadius: 10, marginTop: 10, marginBottom:10 ,width: 340, shadowColor: "#000",
@@ -105,7 +103,6 @@ elevation: 4}}>
     </Card>
  </SafeAreaView>
   );
-
 };
 export default Profile;
 const styles = StyleSheet.create({
