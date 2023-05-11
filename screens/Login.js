@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as LocalAuthentication from 'expo-local-authentication';
 import { useNavigation } from '@react-navigation/native';
 
 const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
