@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 const Profile = (props) => {
 
   const [userName, setUserName] = useState("");
-  // const [score, setScore] = useState(0);
 
   const navigation = useNavigation();
 
