@@ -21,7 +21,6 @@ const Stack = createNativeStackNavigator();
 
 
 
-
 const CounterStackScreen = () =>{
     return(
      <Stack.Navigator
