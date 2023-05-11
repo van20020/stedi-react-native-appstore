@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 
 
-const ManuanllyCounter = (props) =>{
+const ManuallyCounter = (props) =>{
 
 const [newCouter, setNewCounter] = useState(0);
 
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
 }
 });
 
-export default ManuanllyCounter;
+export default ManuallyCounter;
