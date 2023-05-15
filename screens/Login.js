@@ -130,11 +130,13 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
      )}
      //you should never see this text
      else if (loggedInState==loggedInStates.LOGGED_IN){
+      
       return(
         <View>
-          <Text>you logged in</Text>
+          <Text>you logged in{navigation.replace('Login')}</Text>
         </View>
       )}
+
 }
 
 export default Login

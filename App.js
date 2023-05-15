@@ -87,7 +87,7 @@ const App = () =>{
         {/* We only show the Onboarding component the first time they run the app*/}
         {onBoarded ? null : (<Stack.Screen name='Onboarding' children={()=><OnboardingScreen setFirstLaunch={setFirstLaunch} loggedInStates={loggedInStates} loggedInState={loggedInState}/>}/>)}
         {/* We  show the login component if they don't have a valid login token already stored in the app*/}        
-        {loggedInState==loggedInStates.LOGGED_IN ? null : (<Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} setSessionToken={setSessionToken}/>}/>)}
+        <Stack.Screen name='Login' children={()=><Login loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} setSessionToken={setSessionToken}/>}/>
         {/* If they have logged in, and seen the onboarding component, we show them the tabbed navigation component*/}  
         <Stack.Screen name='Navigation' children={()=><Navigation loggedInStates={loggedInStates} loggedInState={loggedInState} setLoggedInState={setLoggedInState} sessionToken={sessionToken}/>}/>
       </Stack.Navigator>
