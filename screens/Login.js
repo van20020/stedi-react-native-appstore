@@ -44,13 +44,15 @@ const styles = StyleSheet.create({
     login: {
         flexDirection: 'row',
         width: '100%',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
         backgroundColor: 'orange',
-        height: '12%',
+        height: '33%',
         alignItems: 'flex-end',
         paddingBottom: 5,
         paddingLeft: 10,
         paddingRight: 10,
+        paddingTop: 50,
         
       },
 })
