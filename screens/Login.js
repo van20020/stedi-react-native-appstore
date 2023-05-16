@@ -5,7 +5,7 @@ export default function Login(){
     return(
         <View style={styles.login}>
             <Text>This is the Login Screen</Text>
-            <Button title="Log In" onPress={()=>{
+            <Button title="Ricky Log In" onPress={()=>{
                 // props.setUserLoggedIn(true)
                 Alert.alert("Hello Ricky")
             }
@@ -23,6 +23,10 @@ export default function Login(){
                  
             <Button title="Christopher Login" onPress={()=>{
                 Alert.alert("Hello Christopher Vang")
+            }
+                }></Button>
+            <Button title="Tyler Login" onPress={()=>{
+                Alert.alert("Hello Tyler Allred")
             }
                 }></Button>
         </View>
