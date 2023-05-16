@@ -29,6 +29,10 @@ export default function Login(){
                 Alert.alert("Hello Tyler Allred")
             }
                 }></Button>
+                            <Button title="Brother Hamilton Login" onPress={()=>{
+                Alert.alert("Hello Brother Hamilton")
+            }
+                }></Button>
         </View>
 
         
