@@ -20,6 +20,11 @@ export default function Login(){
                 Alert.alert("Hello Caroline")
             }
                 }></Button>
+                 
+            <Button title="Christopher Login" onPress={()=>{
+                Alert.alert("Hello Christopher Vang")
+            }
+                }></Button>
         </View>
 
         
