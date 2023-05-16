@@ -10,7 +10,15 @@ export default function Login(props){
                 Alert.alert("Hello Ricky")
             }
                 }></Button>
+
+            <Button title="Jose Log In" onPress={()=>{
+                // props.setUserLoggedIn(true)
+                Alert.alert("Hello Jose")
+            }
+                }></Button>
         </View>
+
+        
 
     );
 }
