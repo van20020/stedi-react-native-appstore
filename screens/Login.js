@@ -16,7 +16,7 @@ export default function Login(){
                 Alert.alert("Hello Jose")
             }
                 }></Button>
-            <Button title="Jose Log In" onPress={()=>{
+            <Button title="Caroline Log In" onPress={()=>{
                 Alert.alert("Hello Caroline")
             }
                 }></Button>
