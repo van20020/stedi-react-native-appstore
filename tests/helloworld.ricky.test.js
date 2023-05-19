@@ -1,4 +1,4 @@
-import hello from '../utils/helloworld.js'
+import hello from '../utils/helloworld.ricky.js'
 import assert from 'assert';
 
 // hello("say hello", () => {})
