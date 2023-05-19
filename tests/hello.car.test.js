@@ -4,5 +4,5 @@ import assert from 'assert'
 it ("Should say hello", ()=>{
     const hello = sayhello();
 
-    assert.equal(hello, "hello");
+    assert.equal(hello, "hello")
 })
